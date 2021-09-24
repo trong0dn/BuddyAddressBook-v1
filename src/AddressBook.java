@@ -13,28 +13,37 @@ public class AddressBook {
     /**
      * Create a collection of BuddyInfo objects.
      */
-    private ArrayList<BuddyInfo> addressBook = new ArrayList<>();
+    private ArrayList<BuddyInfo> myBuddies;
+
+    public AddressBook() {
+        myBuddies = new ArrayList<>();
+    }
 
     /**
      * Add buddyInfo object to addressBook.
-     * @param buddyInfo     BuddyInfo object
+     * @param aBuddy     BuddyInfo object
      */
-    public void addBuddy(BuddyInfo buddyInfo) {
-        this.addressBook.add(buddyInfo);
+    public void addBuddy(BuddyInfo aBuddy) {
+        if (aBuddy != null) {
+            this.myBuddies.add(aBuddy);
+        }
     }
 
     /**
      * Remove buddyInfo object from addressBook.
-     * @param buddyInfo     BuddyInfo object
+     * @param index    index value of myBuddies
      */
-    public void removeBuddy(BuddyInfo buddyInfo) {
-        this.addressBook.remove(buddyInfo);
+    public BuddyInfo removeBuddy(int index) {
+        if (index >= 0 && index < myBuddies.size()) {
+            this.myBuddies.remove(index);
+        }
+        return null;
     }
 
     public static void main(String[] args) {
         BuddyInfo buddy = new BuddyInfo("Tom", "Carleton", "613");
         AddressBook addressBook = new AddressBook();
         addressBook.addBuddy(buddy);
-        addressBook.removeBuddy(buddy);
+        addressBook.removeBuddy(0);
     }
 }

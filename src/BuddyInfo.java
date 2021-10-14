@@ -1,6 +1,8 @@
 // STUDENT NAME: Trong Nguyen
 // STUDENT NUMBER: 100848232
 
+import java.util.Objects;
+
 /**
  * This class contains information about a buddy.
  *
@@ -13,14 +15,13 @@ public class BuddyInfo {
     private String address;
     private String phoneNumber;
 
-    /**
-     * Constructor for BuddyInfo.
-     *
-     * @param name          String, buddy's name
-     * @param address       String, buddy's address
-     * @param phoneNumber   String, buddy's phone number
-     */
     public BuddyInfo(String name, String address, String phoneNumber) {
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public BuddyInfo() {
         this.name = "Homer";
         this.address = "742 Evergreen Terrace";
         this.phoneNumber = "555-5555";
@@ -56,6 +57,32 @@ public class BuddyInfo {
      */
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-30s %-30s %-30s", name, address, phoneNumber);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        final BuddyInfo other = (BuddyInfo) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.address, other.address)) {
+            return false;
+        }
+        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
+            return false;
+        }
+        return true;
     }
 
     /**

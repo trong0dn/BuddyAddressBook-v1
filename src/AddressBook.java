@@ -1,22 +1,41 @@
 // STUDENT NAME: Trong Nguyen
 // STUDENT NUMBER: 100848232
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
  * This class maintains the collection of the BuddyInfo object.
  *
  * @author Trong Nguyen
- * @version 1.0
+ * @version 3.0
  */
-public class AddressBook {
-    /**
-     * Create a collection of BuddyInfo objects.
-     */
+public class AddressBook extends DefaultListModel {
     private ArrayList<BuddyInfo> myBuddies;
+    private DefaultListModel<String> listModel = new DefaultListModel<>();
 
+    /**
+     * Constructor for AddressBook.
+     */
     public AddressBook() {
+        super();
         myBuddies = new ArrayList<>();
+        init();
+    }
+
+    /**
+     * Initializes the AddressBook with some Buddies.
+     */
+    public void init() {
+        this.addBuddy(new BuddyInfo("Homer", "123 Street", "555-123-4567"));
+        this.addBuddy(new BuddyInfo("Marge", "321 Avenue", "555-321-7654"));
+        this.addBuddy(new BuddyInfo("Bart", "456 Road", "555-654-1234"));
+        this.addBuddy(new BuddyInfo("Lisa", "654 Crescent", "555-789-9876"));
+        this.addBuddy(new BuddyInfo("Maggie", "789 Private", "555-987-7654"));
+
+        for (BuddyInfo b : myBuddies) {
+            listModel.addElement(b.toString());
+        }
     }
 
     /**
@@ -40,10 +59,15 @@ public class AddressBook {
         return null;
     }
 
-    public static void main(String[] args) {
-        BuddyInfo buddy = new BuddyInfo("Tom", "Carleton", "613");
-        AddressBook addressBook = new AddressBook();
-        addressBook.addBuddy(buddy);
-        addressBook.removeBuddy(0);
+    /**
+     * Get the DefaultListModel from AddressBook.
+     * @return         DefaultListModel<String> object
+     */
+    public DefaultListModel<String> getListModel() {
+        return this.listModel;
+    }
+
+    public ArrayList<BuddyInfo> getMyBuddies() {
+        return this.myBuddies;
     }
 }

@@ -7,24 +7,23 @@ import java.util.Objects;
  * This class contains information about a buddy.
  *
  * @author Trong Nguyen
- * @version 1.0
+ * @version 3.0
  */
 public class BuddyInfo {
-
     private String name;
     private String address;
     private String phoneNumber;
 
+    /**
+     * Constructor for BuddyInfo.
+     * @param name          String, name of Buddy
+     * @param address       String, address of Buddy
+     * @param phoneNumber   String, phone number of Buddy
+     */
     public BuddyInfo(String name, String address, String phoneNumber) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-    }
-
-    public BuddyInfo() {
-        this.name = "Homer";
-        this.address = "742 Evergreen Terrace";
-        this.phoneNumber = "555-5555";
     }
 
     /**
@@ -32,7 +31,14 @@ public class BuddyInfo {
      * @param name      String, buddy's name
      */
     public BuddyInfo(String name) {
-        this.name = name;
+        this(name,null,null);
+    }
+
+    /**
+     * Default constructor for BuddyInfo.
+     */
+    public BuddyInfo() {
+        this("Homer","742 Evergreen Terrace", "555-5555");
     }
 
     /**
@@ -59,19 +65,20 @@ public class BuddyInfo {
         return phoneNumber;
     }
 
+    /**
+     * Return the toString method of BuddyInfo.
+     * @return      String
+     */
     @Override
     public String toString() {
-        return String.format("%-30s %-30s %-30s", name, address, phoneNumber);
+        return String.format("Name: %-30s Address: %-30s Phone: %-30s\n", name, address, phoneNumber);
     }
 
-    public BuddyInfo getBuddyInfo(String newName) {
-        if (newName.equals(this.name)) {
-            return this;
-        } else {
-            return null;
-        }
-    }
-
+    /**
+     * Check for BuddyInfo object equality.
+     * @param obj   BuddyInfo object
+     * @return      boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -91,14 +98,5 @@ public class BuddyInfo {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Main method.
-     * @param args      String[]
-     */
-    public static void main(String[] args) {
-        BuddyInfo buddyInfo = new BuddyInfo("Homer");
-        System.out.println("Hello " + buddyInfo.getName());
     }
 }

@@ -20,6 +20,7 @@ public class AddressBookView extends JFrame {
      * Constructor for AddressBookView.
      */
     public AddressBookView() {
+        super();
         this.mainFrame = new JFrame("AddressBook");
         this.addressBook = new AddressBook();
     }
@@ -52,7 +53,21 @@ public class AddressBookView extends JFrame {
             panel.add(labelAddress); panel.add(fieldAddress);
             panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
             JOptionPane.showMessageDialog(mainFrame, panel);
-            addressBook.getListModel().addElement(new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText()).toString());
+            BuddyInfo newBuddy = new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
+            boolean exist = false;
+            for (BuddyInfo oldBuddy : addressBook.getMyBuddies()) {
+                if (oldBuddy.equals(newBuddy)) {
+                    JOptionPane.showMessageDialog(mainFrame, "Buddy already exist in AddressBook");
+                    exist = false;
+                    break;
+                } else {
+                    exist = true;
+                }
+            }
+            if (exist) {
+                addressBook.addBuddy(newBuddy);
+                addressBook.getListModel().addElement(newBuddy.toString());
+            }
         });
 
         removeMenuItem.addActionListener(e -> {
@@ -61,13 +76,11 @@ public class AddressBookView extends JFrame {
                 addressBook.removeBuddy(index);
                 addressBook.getListModel().remove(index);
             } else {
-                System.err.println("Must select an BuddyInfo");
+                JOptionPane.showMessageDialog(mainFrame, "Select a Buddy to remove");
             }
         });
 
-        createMenuItem.addActionListener(e -> {
-            addressBook.getListModel().clear();
-        });
+        createMenuItem.addActionListener(e -> addressBook.getListModel().clear());
 
         addressBookMenu.add(createMenuItem);
         addressBookMenu.add(saveMenuItem);

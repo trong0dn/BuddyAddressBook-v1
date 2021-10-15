@@ -18,6 +18,7 @@ public class AddressBook extends DefaultListModel {
      * Constructor for AddressBook.
      */
     public AddressBook() {
+        super();
         myBuddies = new ArrayList<>();
         init();
     }
@@ -64,5 +65,9 @@ public class AddressBook extends DefaultListModel {
      */
     public DefaultListModel<String> getListModel() {
         return this.listModel;
+    }
+
+    public ArrayList<BuddyInfo> getMyBuddies() {
+        return this.myBuddies;
     }
 }

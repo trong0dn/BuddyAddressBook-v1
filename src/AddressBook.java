@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.jar.JarEntry;
 
 /**
  * This class maintains the collection of the BuddyInfo object.
@@ -24,17 +23,20 @@ public class AddressBook extends JFrame {
 
     public AddressBook() {
         myBuddies = new ArrayList<>();
-        this.mainFrame = new JFrame("myAddressBook");
+        this.mainFrame = new JFrame("AddressBook");
         init();
     }
 
     public void init() {
-        // create the model and add elements
-        listModel.addElement(new BuddyInfo("Homer", "123 Street", "555-123-4567").toString());
-        listModel.addElement(new BuddyInfo("Marge", "321 Avenue", "555-321-7654").toString());
-        listModel.addElement(new BuddyInfo("Bart", "456 Road", "555-654-1234").toString());
-        listModel.addElement(new BuddyInfo("Lisa", "654 Crescent", "555-789-9876").toString());
-        listModel.addElement(new BuddyInfo("Maggie", "789 Private", "555-987-7654").toString());
+        addBuddy(new BuddyInfo("Homer", "123 Street", "555-123-4567"));
+        addBuddy(new BuddyInfo("Marge", "321 Avenue", "555-321-7654"));
+        addBuddy(new BuddyInfo("Bart", "456 Road", "555-654-1234"));
+        addBuddy(new BuddyInfo("Lisa", "654 Crescent", "555-789-9876"));
+        addBuddy(new BuddyInfo("Maggie", "789 Private", "555-987-7654"));
+
+        for (BuddyInfo b : myBuddies) {
+            listModel.addElement(b.toString());
+        }
     }
 
     /**
@@ -63,13 +65,11 @@ public class AddressBook extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Menu");
-        JMenuItem createMenuItem = new JMenuItem("Create");
-        JMenuItem displayMenuItem = new JMenuItem("Display");
         JMenuItem addMenuItem = new JMenuItem("Add");
         JMenuItem removeMenuItem = new JMenuItem("Remove");
         JMenuItem saveMenuItem = new JMenuItem("Save");
 
-        createMenuItem.addActionListener(new ActionListener() {
+        addMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -87,8 +87,24 @@ public class AddressBook extends JFrame {
             }
         });
 
-        menu.add(createMenuItem);
-        menu.add(displayMenuItem);
+        removeMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel panel = new JPanel(new GridLayout(1, 2));
+                JLabel labelName = new JLabel("Buddy Name to Remove:");
+                JTextField fieldName = new JTextField();
+                panel.add(labelName); panel.add(fieldName);
+                JOptionPane.showMessageDialog(mainFrame, panel);
+                for (BuddyInfo b : myBuddies) {
+                    if (b.equals(b.getBuddyInfo(fieldName.getText()))) {
+                        int index = listModel.lastIndexOf(b);
+                        removeBuddy(index);
+                        listModel.removeElement(b.toString());
+                    }
+                }
+            }
+        });
+
         menu.add(addMenuItem);
         menu.add(removeMenuItem);
         menu.add(saveMenuItem);

@@ -64,6 +64,14 @@ public class BuddyInfo {
         return String.format("%-30s %-30s %-30s", name, address, phoneNumber);
     }
 
+    public BuddyInfo getBuddyInfo(String newName) {
+        if (newName.equals(this.name)) {
+            return this;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

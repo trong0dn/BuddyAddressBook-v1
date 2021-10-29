@@ -30,7 +30,6 @@ public class AddressBookView extends JFrame {
      * @return      boolean
      */
     public boolean displayGUI() {
-        this.mainFrame = new JFrame("AddressBook");
         this.mainFrame.setPreferredSize(new Dimension(500, 600));
 
         JMenuBar menuBar = new JMenuBar();

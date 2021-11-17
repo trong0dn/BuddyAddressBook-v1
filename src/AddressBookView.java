@@ -142,6 +142,10 @@ public class AddressBookView extends JFrame {
         return saveMenuItem;
     }
 
+    /**
+     * Create the import menu item for Import address book.
+     * @return  JMenuItem
+     */
     private JMenuItem importMenuItem() {
         JMenuItem importMenuItem = new JMenuItem("Import");
         importMenuItem.addActionListener(e -> addressBook.readImport(FILENAME));

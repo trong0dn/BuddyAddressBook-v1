@@ -1,5 +1,0 @@
-Homer#123 Street#555-123-4567
-Marge#321 Avenue#555-321-7654
-Bart#456 Road#555-654-1234
-Lisa#654 Crescent#555-789-9876
-Maggie#789 Private#555-987-7654

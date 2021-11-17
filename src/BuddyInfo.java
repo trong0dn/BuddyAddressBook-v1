@@ -2,7 +2,6 @@
 // STUDENT NUMBER: 100848232
 
 import java.util.Objects;
-import java.util.Scanner;
 
 /**
  * This class contains information about a buddy.
@@ -106,7 +105,7 @@ public class BuddyInfo {
      * @param addressLine   String
      * @return  BuddyInfo object
      */
-    public static BuddyInfo stringImport(String addressLine) {
+    static BuddyInfo stringImport(String addressLine) {
         String[] info = addressLine.split(",");
         return new BuddyInfo(info[0], info[1], info[2]);
     }

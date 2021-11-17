@@ -93,12 +93,18 @@ public class AddressBook extends DefaultListModel {
         }
     }
 
+    /**
+     * Reads a file given a file name as a parameter, and updates the address book GUI.
+     * @param filename  String
+     */
     public void readImport(String filename) {
         try {
             FileReader fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
             for (String addressLine = br.readLine(); addressLine != null; addressLine = br.readLine()) {
-                System.out.println(addressLine);
+                BuddyInfo b = BuddyInfo.stringImport(addressLine);
+                this.myBuddies.add(b);
+                listModel.addElement(b.toString());
             }
             br.close();
             fr.close();

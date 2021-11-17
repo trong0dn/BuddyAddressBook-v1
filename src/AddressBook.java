@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 /**
  * This class maintains the collection of the BuddyInfo object.
- *
  * @author Trong Nguyen
  */
 public class AddressBook extends DefaultListModel {

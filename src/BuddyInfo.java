@@ -5,7 +5,6 @@ import java.util.Objects;
 
 /**
  * This class contains information about a buddy.
- *
  * @author Trong Nguyen
  */
 public class BuddyInfo {

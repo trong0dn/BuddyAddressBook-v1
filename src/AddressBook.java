@@ -10,8 +10,8 @@ import java.util.ArrayList;
  * @author Trong Nguyen
  */
 public class AddressBook extends DefaultListModel {
-    private ArrayList<BuddyInfo> myBuddies;
-    private DefaultListModel<String> listModel = new DefaultListModel<>();
+    private final ArrayList<BuddyInfo> myBuddies;
+    private final DefaultListModel<String> listModel = new DefaultListModel<>();
 
     /**
      * Constructor for AddressBook.

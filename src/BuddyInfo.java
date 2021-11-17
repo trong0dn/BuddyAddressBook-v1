@@ -9,9 +9,9 @@ import java.util.Objects;
  * @author Trong Nguyen
  */
 public class BuddyInfo {
-    private String name;
-    private String address;
-    private String phoneNumber;
+    private final String name;
+    private final String address;
+    private final String phoneNumber;
 
     /**
      * Constructor for BuddyInfo.

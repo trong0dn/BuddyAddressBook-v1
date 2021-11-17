@@ -12,8 +12,8 @@ import java.awt.event.WindowEvent;
  */
 public class AddressBookView extends JFrame {
     private JList buddyInfoList;
-    private JFrame mainFrame;
-    private AddressBook addressBook;
+    private final JFrame mainFrame;
+    private final AddressBook addressBook;
 
     /**
      * Constructor for AddressBookView.

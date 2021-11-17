@@ -34,11 +34,41 @@ public class AddressBookView extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu addressBookMenu = new JMenu("AddressBook");
         JMenu buddyInfoMenu = new JMenu("BuddyInfo");
-        JMenuItem addMenuItem = new JMenuItem("Add");
-        JMenuItem removeMenuItem = new JMenuItem("Remove");
-        JMenuItem createMenuItem = new JMenuItem("Create");
-        JMenuItem saveMenuItem = new JMenuItem("Save");
+        JMenuItem addMenuItem = addMenuItem();
+        JMenuItem removeMenuItem = removeMenuItem();
+        JMenuItem createMenuItem = createMenuItem();
+        JMenuItem saveMenuItem = saveMenuItem();
 
+        addressBookMenu.add(createMenuItem);
+        addressBookMenu.add(saveMenuItem);
+        buddyInfoMenu.add(addMenuItem);
+        buddyInfoMenu.add(removeMenuItem);
+
+        menuBar.add(addressBookMenu);
+        menuBar.add(buddyInfoMenu);
+
+        buddyInfoList = new JList<>(addressBook.getListModel());
+        this.mainFrame.add(buddyInfoList);
+        this.mainFrame.setJMenuBar(menuBar);
+        this.mainFrame.pack();
+
+        this.mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                if (JOptionPane.showConfirmDialog(mainFrame, "Are you sure you want to quit?")
+                        == JOptionPane.OK_OPTION) {
+                    mainFrame.setVisible(false);
+                    mainFrame.dispose();
+                }
+            }
+        });
+        this.mainFrame.setVisible(true);
+        return true;
+    }
+
+    private JMenuItem addMenuItem() {
+        JMenuItem addMenuItem = new JMenuItem("Add");
         addMenuItem.addActionListener(e -> {
             JPanel panel = new JPanel(new GridLayout(3, 2));
             JLabel labelName = new JLabel("Enter new Buddy Name:");
@@ -67,7 +97,11 @@ public class AddressBookView extends JFrame {
                 addressBook.getListModel().addElement(newBuddy.toString());
             }
         });
+        return addMenuItem;
+    }
 
+    private JMenuItem removeMenuItem() {
+        JMenuItem removeMenuItem = new JMenuItem("Remove");
         removeMenuItem.addActionListener(e -> {
             int index = buddyInfoList.getSelectedIndex();
             if (index != -1) {
@@ -77,35 +111,18 @@ public class AddressBookView extends JFrame {
                 JOptionPane.showMessageDialog(mainFrame, "Select a Buddy to remove");
             }
         });
+        return removeMenuItem;
+    }
 
+    private JMenuItem createMenuItem() {
+        JMenuItem createMenuItem = new JMenuItem("Create");
         createMenuItem.addActionListener(e -> addressBook.getListModel().clear());
+        return createMenuItem;
+    }
 
-        addressBookMenu.add(createMenuItem);
-        addressBookMenu.add(saveMenuItem);
-        buddyInfoMenu.add(addMenuItem);
-        buddyInfoMenu.add(removeMenuItem);
-
-        menuBar.add(addressBookMenu);
-        menuBar.add(buddyInfoMenu);
-
-        buddyInfoList = new JList<>(addressBook.getListModel());
-        this.mainFrame.add(buddyInfoList);
-        this.mainFrame.setJMenuBar(menuBar);
-        this.mainFrame.pack();
-
-        this.mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.mainFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent we) {
-                if (JOptionPane.showConfirmDialog(mainFrame, "Are you sure you want to quit?")
-                        == JOptionPane.OK_OPTION) {
-                    mainFrame.setVisible(false);
-                    mainFrame.dispose();
-                }
-            }
-        });
-        this.mainFrame.setVisible(true);
-        return true;
+    private JMenuItem saveMenuItem() {
+        JMenuItem saveMenuItem = new JMenuItem("Save");
+        return saveMenuItem;
     }
 
     /**

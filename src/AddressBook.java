@@ -2,6 +2,9 @@
 // STUDENT NUMBER: 100848232
 
 import javax.swing.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -68,5 +71,18 @@ public class AddressBook extends DefaultListModel {
 
     public ArrayList<BuddyInfo> getMyBuddies() {
         return this.myBuddies;
+    }
+
+    public boolean save(String filename) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream(filename);
+        ObjectOutputStream file = new ObjectOutputStream(outputStream);
+
+        for (BuddyInfo b : myBuddies) {
+            file.writeObject(b.toString());
+        }
+
+        file.close();
+        outputStream.close();
+        return true;
     }
 }

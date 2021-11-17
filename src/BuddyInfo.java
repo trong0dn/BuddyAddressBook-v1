@@ -7,7 +7,6 @@ import java.util.Objects;
  * This class contains information about a buddy.
  *
  * @author Trong Nguyen
- * @version 3.0
  */
 public class BuddyInfo {
     private String name;
@@ -67,11 +66,16 @@ public class BuddyInfo {
 
     /**
      * Return the toString method of BuddyInfo.
+     * BuddyInfo is displayed on a single line, with each attribute of the BuddyInfo separated from one another using
+     * a special character.
+     * Example output:
+     * "Mr. Buddy#111 Fake Street#613-555-5555"
+     *
      * @return      String
      */
     @Override
     public String toString() {
-        return String.format("Name: %-30s Address: %-30s Phone: %-30s\n", name, address, phoneNumber);
+        return String.format("%s#%s#%s\n", name, address, phoneNumber);
     }
 
     /**
@@ -94,9 +98,6 @@ public class BuddyInfo {
         if (!Objects.equals(this.address, other.address)) {
             return false;
         }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.phoneNumber, other.phoneNumber);
     }
 }

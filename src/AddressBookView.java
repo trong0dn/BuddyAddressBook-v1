@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 /**
  * This class displays a view of the AddressBook.
  * @author Trong Nguyen
- * @version 3.0
  */
 public class AddressBookView extends JFrame {
     private JList buddyInfoList;

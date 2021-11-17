@@ -82,7 +82,7 @@ public class AddressBookView extends JFrame {
             panel.add(labelName); panel.add(fieldName);
             panel.add(labelAddress); panel.add(fieldAddress);
             panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
-            JOptionPane.showMessageDialog(mainFrame, panel);
+            JOptionPane.showMessageDialog(mainFrame, panel, "Add a new Buddy", JOptionPane.INFORMATION_MESSAGE);
             BuddyInfo newBuddy = new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
             boolean exist = false;
             for (BuddyInfo oldBuddy : addressBook.getMyBuddies()) {

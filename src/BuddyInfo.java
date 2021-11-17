@@ -2,6 +2,7 @@
 // STUDENT NUMBER: 100848232
 
 import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * This class contains information about a buddy.
@@ -68,13 +69,13 @@ public class BuddyInfo {
      * BuddyInfo is displayed on a single line, with each attribute of the BuddyInfo separated from one another using
      * a special character.
      * Example output:
-     * "Mr. Buddy#111 Fake Street#613-555-5555"
+     * "Mr. Buddy,111 Fake Street,613-555-5555"
      *
      * @return      String
      */
     @Override
     public String toString() {
-        return String.format("%s#%s#%s\n", name, address, phoneNumber);
+        return String.format("%s,%s,%s\n", name, address, phoneNumber);
     }
 
     /**
@@ -98,5 +99,15 @@ public class BuddyInfo {
             return false;
         }
         return Objects.equals(this.phoneNumber, other.phoneNumber);
+    }
+
+    /**
+     * BuddyInfo that takes a string parameter of the form: "Mr. Buddy,111 Fake Street,613-555-5555"
+     * @param addressLine   String
+     * @return  BuddyInfo object
+     */
+    public static BuddyInfo stringImport(String addressLine) {
+        String[] info = addressLine.split(",");
+        return new BuddyInfo(info[0], info[1], info[2]);
     }
 }

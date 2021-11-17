@@ -81,13 +81,27 @@ public class AddressBook extends DefaultListModel {
      */
     public void save(String filename) {
         try {
-            FileWriter fileWriter = new FileWriter(filename);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            FileWriter fw = new FileWriter(filename);
+            BufferedWriter bw = new BufferedWriter(fw);
             for (BuddyInfo b : myBuddies) {
-                fileWriter.write(b.toString());
+                fw.write(b.toString());
             }
-            bufferedWriter.close();
-            fileWriter.close();
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readImport(String filename) {
+        try {
+            FileReader fr = new FileReader(filename);
+            BufferedReader br = new BufferedReader(fr);
+            for (String addressLine = br.readLine(); addressLine != null; addressLine = br.readLine()) {
+                System.out.println(addressLine);
+            }
+            br.close();
+            fr.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

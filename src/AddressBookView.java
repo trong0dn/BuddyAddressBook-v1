@@ -14,6 +14,7 @@ public class AddressBookView extends JFrame {
     private JList buddyInfoList;
     private final JFrame mainFrame;
     private final AddressBook addressBook;
+    public final String FILENAME = "saveAddressBook.txt";
 
     /**
      * Constructor for AddressBookView.
@@ -34,15 +35,12 @@ public class AddressBookView extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu addressBookMenu = new JMenu("AddressBook");
         JMenu buddyInfoMenu = new JMenu("BuddyInfo");
-        JMenuItem addMenuItem = addMenuItem();
-        JMenuItem removeMenuItem = removeMenuItem();
-        JMenuItem createMenuItem = createMenuItem();
-        JMenuItem saveMenuItem = saveMenuItem();
 
-        addressBookMenu.add(createMenuItem);
-        addressBookMenu.add(saveMenuItem);
-        buddyInfoMenu.add(addMenuItem);
-        buddyInfoMenu.add(removeMenuItem);
+        addressBookMenu.add(createMenuItem());
+        addressBookMenu.add(saveMenuItem());
+        addressBookMenu.add(importMenuItem());
+        buddyInfoMenu.add(addMenuItem());
+        buddyInfoMenu.add(removeMenuItem());
 
         menuBar.add(addressBookMenu);
         menuBar.add(buddyInfoMenu);
@@ -140,8 +138,14 @@ public class AddressBookView extends JFrame {
      */
     private JMenuItem saveMenuItem() {
         JMenuItem saveMenuItem = new JMenuItem("Save");
-        saveMenuItem.addActionListener(e -> addressBook.save("saveAddressBook.txt"));
+        saveMenuItem.addActionListener(e -> addressBook.save(FILENAME));
         return saveMenuItem;
+    }
+
+    private JMenuItem importMenuItem() {
+        JMenuItem importMenuItem = new JMenuItem("Import");
+        importMenuItem.addActionListener(e -> addressBook.readImport(FILENAME));
+        return importMenuItem;
     }
 
     /**

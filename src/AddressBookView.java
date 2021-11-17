@@ -68,6 +68,10 @@ public class AddressBookView extends JFrame {
         return true;
     }
 
+    /**
+     * Create the menu item for Add a buddy.
+     * @return  JMenuItem
+     */
     private JMenuItem addMenuItem() {
         JMenuItem addMenuItem = new JMenuItem("Add");
         addMenuItem.addActionListener(e -> {
@@ -101,6 +105,11 @@ public class AddressBookView extends JFrame {
         return addMenuItem;
     }
 
+
+    /**
+     * Create the menu item for Remove a buddy.
+     * @return  JMenuItem
+     */
     private JMenuItem removeMenuItem() {
         JMenuItem removeMenuItem = new JMenuItem("Remove");
         removeMenuItem.addActionListener(e -> {
@@ -115,12 +124,21 @@ public class AddressBookView extends JFrame {
         return removeMenuItem;
     }
 
+
+    /**
+     * Create the menu item for Create a new address book.
+     * @return  JMenuItem
+     */
     private JMenuItem createMenuItem() {
         JMenuItem createMenuItem = new JMenuItem("Create");
         createMenuItem.addActionListener(e -> addressBook.getListModel().clear());
         return createMenuItem;
     }
 
+    /**
+     * Create the menu item for Save address book.
+     * @return  JMenuItem
+     */
     private JMenuItem saveMenuItem() {
         JMenuItem saveMenuItem = new JMenuItem("Save");
         saveMenuItem.addActionListener(e -> addressBook.save("saveAddressBook.txt"));

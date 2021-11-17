@@ -67,10 +67,19 @@ public class AddressBook extends DefaultListModel {
         return this.listModel;
     }
 
+    /**
+     * Get list of buddyInfo objects.
+     * @return  ArrayList<BuddyInfo>
+     */
     public ArrayList<BuddyInfo> getMyBuddies() {
         return this.myBuddies;
     }
 
+    /**
+     * The save() method of AddressBook take as a parameter the file name, and save each BuddyInfo on a separate
+     * line and use BuddyInfo's toString() method.
+     * @param filename  String
+     */
     public void save(String filename) {
         try {
             FileWriter fileWriter = new FileWriter(filename);

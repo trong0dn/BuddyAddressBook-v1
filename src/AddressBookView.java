@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 
 /**
  * This class displays a view of the AddressBook.
@@ -138,7 +139,10 @@ public class AddressBookView extends JFrame {
      */
     private JMenuItem saveMenuItem() {
         JMenuItem saveMenuItem = new JMenuItem("Save");
-        saveMenuItem.addActionListener(e -> addressBook.save(FILENAME));
+        saveMenuItem.addActionListener(e -> {
+            String filename = JOptionPane.showInputDialog(mainFrame,"Enter name of .txt file to save:");
+            addressBook.save(filename + ".txt");
+        });
         return saveMenuItem;
     }
 
@@ -148,7 +152,12 @@ public class AddressBookView extends JFrame {
      */
     private JMenuItem importMenuItem() {
         JMenuItem importMenuItem = new JMenuItem("Import");
-        importMenuItem.addActionListener(e -> addressBook.readImport(FILENAME));
+        importMenuItem.addActionListener(e -> {
+            String filename = JOptionPane.showInputDialog(mainFrame,"Enter name of .txt file to import:");
+            if (!(addressBook.readImport(filename + ".txt"))) {
+                JOptionPane.showMessageDialog(mainFrame, "Buddy already exist in AddressBook");
+            }
+        });
         return importMenuItem;
     }
 

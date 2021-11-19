@@ -97,7 +97,7 @@ public class AddressBook extends DefaultListModel {
      * Reads a file given a file name as a parameter, and updates the address book GUI.
      * @param filename  String
      */
-    public void readImport(String filename) {
+    public boolean readImport(String filename) {
         try {
             FileReader fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
@@ -111,5 +111,6 @@ public class AddressBook extends DefaultListModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
 }

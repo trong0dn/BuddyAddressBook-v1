@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
 
 /**
  * This class displays a view of the AddressBook.
@@ -163,7 +162,7 @@ public class AddressBookView extends JFrame {
             if (addressBook.readImport(filename + ".txt")) {
                 JOptionPane.showMessageDialog(mainFrame, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(mainFrame, "Filename does not exist", "Error", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(mainFrame, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         return importMenuItem;

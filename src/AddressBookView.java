@@ -15,7 +15,6 @@ public class AddressBookView extends JFrame {
     private JList buddyInfoList;
     private final JFrame mainFrame;
     private final AddressBook addressBook;
-    public final String FILENAME = "saveAddressBook.txt";
 
     /**
      * Constructor for AddressBookView.
@@ -129,7 +128,10 @@ public class AddressBookView extends JFrame {
      */
     private JMenuItem createMenuItem() {
         JMenuItem createMenuItem = new JMenuItem("Create");
-        createMenuItem.addActionListener(e -> addressBook.getListModel().clear());
+        createMenuItem.addActionListener(e -> {
+            addressBook.getListModel().clear();
+            buddyInfoList.removeAll();
+        });
         return createMenuItem;
     }
 
@@ -141,7 +143,11 @@ public class AddressBookView extends JFrame {
         JMenuItem saveMenuItem = new JMenuItem("Save");
         saveMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(mainFrame,"Enter name of .txt file to save:");
-            addressBook.save(filename + ".txt");
+            if (addressBook.save(filename + ".txt")) {
+                JOptionPane.showMessageDialog(mainFrame, "Save Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, "Saving Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
         return saveMenuItem;
     }
@@ -154,8 +160,10 @@ public class AddressBookView extends JFrame {
         JMenuItem importMenuItem = new JMenuItem("Import");
         importMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(mainFrame,"Enter name of .txt file to import:");
-            if (!(addressBook.readImport(filename + ".txt"))) {
-                JOptionPane.showMessageDialog(mainFrame, "Buddy already exist in AddressBook");
+            if (addressBook.readImport(filename + ".txt")) {
+                JOptionPane.showMessageDialog(mainFrame, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, "Filename does not exist", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         return importMenuItem;

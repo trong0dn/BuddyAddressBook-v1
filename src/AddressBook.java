@@ -79,7 +79,7 @@ public class AddressBook extends DefaultListModel {
      * line and use BuddyInfo's toString() method.
      * @param filename  String
      */
-    public void save(String filename) {
+    public boolean save(String filename) {
         try {
             FileWriter fw = new FileWriter(filename);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -90,7 +90,9 @@ public class AddressBook extends DefaultListModel {
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -110,6 +112,7 @@ public class AddressBook extends DefaultListModel {
             fr.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }

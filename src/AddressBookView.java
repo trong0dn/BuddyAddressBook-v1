@@ -46,6 +46,7 @@ public class AddressBookView extends JFrame {
         menuBar.add(buddyInfoMenu);
 
         buddyInfoList = new JList<>(addressBook.getListModel());
+        buddyInfoList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.add(buddyInfoList);
         this.setJMenuBar(menuBar);
         this.pack();

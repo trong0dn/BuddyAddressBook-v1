@@ -126,15 +126,15 @@ public class BuddyInfo implements Serializable {
     }
 
     private String createXMLElement(String tag, String value) {
-        return "<" + tag + ">" + value + "</" + tag + ">";
+        return "\t" + "<" + tag + ">" + value + "</" + tag + ">";
     }
 
     public String toXML() {
-        return "<" + BUDDY_TAG + ">" + "\n" +
+        return "\t" + "<" + BUDDY_TAG + ">" + "\n" +
                 "\t" + createXMLElement(NAME_TAG, name) + "\n" +
                 "\t" + createXMLElement(ADDRESS_TAG, address) + "\n" +
                 "\t" + createXMLElement(PHONE_TAG, phoneNumber) + "\n" +
-                "</" + BUDDY_TAG + ">" + "\n";
+                "\t" + "</" + BUDDY_TAG + ">" + "\n";
     }
 
     public String fromXML() {

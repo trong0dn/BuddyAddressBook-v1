@@ -160,9 +160,9 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
             FileReader fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
             for (String addressLine = br.readLine(); addressLine != null; addressLine = br.readLine()) {
-                /*BuddyInfo b = BuddyInfo.fromXML();
-                this.myBuddies.add(b);
-                listModel.addElement(b.toString());*/
+                //BuddyInfo b = BuddyInfo.fromXML();
+                //this.myBuddies.add(b);
+                //listModel.addElement(b.toString());
             }
             br.close();
             fr.close();

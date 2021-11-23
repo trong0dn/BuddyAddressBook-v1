@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
  * @author Trong Nguyen
  */
 public class AddressBookView extends JFrame {
-    private JList buddyInfoList;
+    private JList<String> buddyInfoList;
     private final AddressBook addressBook;
 
     /**
@@ -24,9 +24,8 @@ public class AddressBookView extends JFrame {
 
     /**
      * Display the graphical user interface for AddressBook.
-     * @return      boolean
      */
-    public boolean displayGUI() {
+    public void displayGUI() {
         this.setTitle("MyAddressBookApp");
         this.setPreferredSize(new Dimension(500, 600));
 
@@ -61,7 +60,6 @@ public class AddressBookView extends JFrame {
             }
         });
         this.setVisible(true);
-        return true;
     }
 
     /**

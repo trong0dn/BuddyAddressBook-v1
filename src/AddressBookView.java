@@ -12,7 +12,6 @@ import java.awt.event.WindowEvent;
  */
 public class AddressBookView extends JFrame {
     private JList buddyInfoList;
-    private final JFrame mainFrame;
     private final AddressBook addressBook;
 
     /**
@@ -20,7 +19,6 @@ public class AddressBookView extends JFrame {
      */
     public AddressBookView() {
         super();
-        this.mainFrame = new JFrame("AddressBook");
         this.addressBook = new AddressBook();
     }
 
@@ -29,7 +27,8 @@ public class AddressBookView extends JFrame {
      * @return      boolean
      */
     public boolean displayGUI() {
-        this.mainFrame.setPreferredSize(new Dimension(500, 600));
+        this.setTitle("MyAddressBookApp");
+        this.setPreferredSize(new Dimension(500, 600));
 
         JMenuBar menuBar = new JMenuBar();
         JMenu addressBookMenu = new JMenu("AddressBook");
@@ -40,27 +39,28 @@ public class AddressBookView extends JFrame {
         addressBookMenu.add(importMenuItem());
         buddyInfoMenu.add(addMenuItem());
         buddyInfoMenu.add(removeMenuItem());
+        buddyInfoMenu.add(editMenuItem());
 
         menuBar.add(addressBookMenu);
         menuBar.add(buddyInfoMenu);
 
         buddyInfoList = new JList<>(addressBook.getListModel());
-        this.mainFrame.add(buddyInfoList);
-        this.mainFrame.setJMenuBar(menuBar);
-        this.mainFrame.pack();
+        this.add(buddyInfoList);
+        this.setJMenuBar(menuBar);
+        this.pack();
 
-        this.mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.mainFrame.addWindowListener(new WindowAdapter() {
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
-                if (JOptionPane.showConfirmDialog(mainFrame, "Are you sure you want to quit?")
+                if (JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?")
                         == JOptionPane.OK_OPTION) {
-                    mainFrame.setVisible(false);
-                    mainFrame.dispose();
+                    setVisible(false);
+                    dispose();
                 }
             }
         });
-        this.mainFrame.setVisible(true);
+        this.setVisible(true);
         return true;
     }
 
@@ -81,12 +81,12 @@ public class AddressBookView extends JFrame {
             panel.add(labelName); panel.add(fieldName);
             panel.add(labelAddress); panel.add(fieldAddress);
             panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
-            JOptionPane.showMessageDialog(mainFrame, panel, "Add a new Buddy", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, panel, "Add a new Buddy", JOptionPane.INFORMATION_MESSAGE);
             BuddyInfo newBuddy = new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
             boolean exist = false;
             for (BuddyInfo oldBuddy : addressBook.getMyBuddies()) {
                 if (oldBuddy.equals(newBuddy)) {
-                    JOptionPane.showMessageDialog(mainFrame, "Buddy already exist in AddressBook");
+                    JOptionPane.showMessageDialog(this, "Buddy already exist in AddressBook");
                     exist = false;
                     break;
                 } else {
@@ -101,7 +101,6 @@ public class AddressBookView extends JFrame {
         return addMenuItem;
     }
 
-
     /**
      * Create the menu item for Remove a buddy.
      * @return  JMenuItem
@@ -114,12 +113,41 @@ public class AddressBookView extends JFrame {
                 addressBook.removeBuddy(index);
                 addressBook.getListModel().remove(index);
             } else {
-                JOptionPane.showMessageDialog(mainFrame, "Select a Buddy to remove");
+                JOptionPane.showMessageDialog(this, "Select a Buddy to remove");
             }
         });
         return removeMenuItem;
     }
 
+    private JMenuItem editMenuItem() {
+        JMenuItem editMenuItem = new JMenuItem("Edit");
+        editMenuItem.addActionListener(e -> {
+            int index = buddyInfoList.getSelectedIndex();
+            BuddyInfo selectedBuddy = addressBook.getBuddy(index);
+            BuddyInfo editedBuddy = updateBuddyInfo(selectedBuddy.getName(), selectedBuddy.getAddress(), selectedBuddy.getPhoneNumber());
+            System.out.println(editedBuddy.getName());
+            selectedBuddy.setName(editedBuddy.getName());
+            selectedBuddy.setAddress(editedBuddy.getAddress());
+            selectedBuddy.setPhoneNumber(editedBuddy.getPhoneNumber());
+            addressBook.getListModel().set(index, selectedBuddy.toString());
+        });
+        return editMenuItem;
+    }
+
+    private BuddyInfo updateBuddyInfo(String oldName, String oldAddress, String oldPhoneNumber) {
+        JPanel panel = new JPanel(new GridLayout(3, 2));
+        JLabel labelName = new JLabel("Enter new Buddy Name:");
+        JLabel labelAddress = new JLabel("Enter new Buddy Address:");
+        JLabel labelPhoneNumber = new JLabel("Enter new Buddy Phone Number:");
+        JTextField fieldName = new JTextField(oldName);
+        JTextField fieldAddress = new JTextField(oldAddress);
+        JTextField fieldPhoneNumber = new JTextField(oldPhoneNumber);
+        panel.add(labelName); panel.add(fieldName);
+        panel.add(labelAddress); panel.add(fieldAddress);
+        panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
+        JOptionPane.showMessageDialog(this, panel, "Edit BuddyInfo", JOptionPane.INFORMATION_MESSAGE);
+        return new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
+    }
 
     /**
      * Create the menu item for Create a new address book.
@@ -141,11 +169,11 @@ public class AddressBookView extends JFrame {
     private JMenuItem saveMenuItem() {
         JMenuItem saveMenuItem = new JMenuItem("Save");
         saveMenuItem.addActionListener(e -> {
-            String filename = JOptionPane.showInputDialog(mainFrame,"Enter name of .txt file to save:");
+            String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to save:");
             if (addressBook.save(filename + ".txt")) {
-                JOptionPane.showMessageDialog(mainFrame, "Save Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Save Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(mainFrame, "Saving Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Saving Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         return saveMenuItem;
@@ -158,11 +186,11 @@ public class AddressBookView extends JFrame {
     private JMenuItem importMenuItem() {
         JMenuItem importMenuItem = new JMenuItem("Import");
         importMenuItem.addActionListener(e -> {
-            String filename = JOptionPane.showInputDialog(mainFrame,"Enter name of .txt file to import:");
+            String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to import:");
             if (addressBook.readImport(filename + ".txt")) {
-                JOptionPane.showMessageDialog(mainFrame, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(mainFrame, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         return importMenuItem;

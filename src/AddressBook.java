@@ -58,6 +58,13 @@ public class AddressBook extends DefaultListModel {
         return null;
     }
 
+    public BuddyInfo getBuddy(int index) {
+        if (index >= 0 && index < myBuddies.size()) {
+            return this.myBuddies.get(index);
+        }
+        return null;
+    }
+
     /**
      * Get the DefaultListModel from AddressBook.
      * @return         DefaultListModel<String> object

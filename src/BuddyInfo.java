@@ -8,9 +8,9 @@ import java.util.Objects;
  * @author Trong Nguyen
  */
 public class BuddyInfo {
-    private final String name;
-    private final String address;
-    private final String phoneNumber;
+    private String name;
+    private String address;
+    private String phoneNumber;
 
     /**
      * Constructor for BuddyInfo.
@@ -22,21 +22,6 @@ public class BuddyInfo {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-    }
-
-    /**
-     * Constructor for BuddyInfo.
-     * @param name      String, buddy's name
-     */
-    public BuddyInfo(String name) {
-        this(name,null,null);
-    }
-
-    /**
-     * Default constructor for BuddyInfo.
-     */
-    public BuddyInfo() {
-        this("Homer","742 Evergreen Terrace", "555-5555");
     }
 
     /**
@@ -61,6 +46,30 @@ public class BuddyInfo {
      */
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    /**
+     * Set the buddy's name.
+     * @param name  String
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set the buddy's address.
+     * @param address   String
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * Set the buddy's phone number.
+     * @param phoneNumber   String
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     /**

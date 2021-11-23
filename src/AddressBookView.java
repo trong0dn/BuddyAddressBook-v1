@@ -34,8 +34,8 @@ public class AddressBookView extends JFrame {
         JMenu buddyInfoMenu = new JMenu("BuddyInfo");
 
         addressBookMenu.add(createMenuItem());
-        addressBookMenu.add(saveMenuItem());
-        addressBookMenu.add(importMenuItem());
+        addressBookMenu.add(saveTxtMenuItem());
+        addressBookMenu.add(importTxtMenuItem());
         buddyInfoMenu.add(addMenuItem());
         buddyInfoMenu.add(removeMenuItem());
         buddyInfoMenu.add(editMenuItem());
@@ -173,9 +173,10 @@ public class AddressBookView extends JFrame {
 
     /**
      * Create the menu item for Save address book.
+     * Saves a txt file.
      * @return  JMenuItem
      */
-    private JMenuItem saveMenuItem() {
+    private JMenuItem saveTxtMenuItem() {
         JMenuItem saveMenuItem = new JMenuItem("Save");
         saveMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to save:");
@@ -190,9 +191,10 @@ public class AddressBookView extends JFrame {
 
     /**
      * Create the import menu item for Import address book.
+     * Import txt file.
      * @return  JMenuItem
      */
-    private JMenuItem importMenuItem() {
+    private JMenuItem importTxtMenuItem() {
         JMenuItem importMenuItem = new JMenuItem("Import");
         importMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to import:");

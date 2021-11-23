@@ -198,7 +198,7 @@ public class AddressBookView extends JFrame {
         JMenuItem importMenuItem = new JMenuItem("Import");
         importMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to import:");
-            if (addressBook.readImport(filename + ".txt")) {
+            if (addressBook.readTxtImport(filename + ".txt")) {
                 JOptionPane.showMessageDialog(this, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);

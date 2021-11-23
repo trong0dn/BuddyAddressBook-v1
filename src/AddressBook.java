@@ -110,7 +110,7 @@ public class AddressBook extends DefaultListModel<String> {
      * Reads a file given a file name as a parameter, and updates the address book GUI.
      * @param filename  String
      */
-    public boolean readImport(String filename) {
+    public boolean readTxtImport(String filename) {
         try {
             FileReader fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);

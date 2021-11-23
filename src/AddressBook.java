@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * This class maintains the collection of the BuddyInfo object.
  * @author Trong Nguyen
  */
-public class AddressBook extends DefaultListModel {
+public class AddressBook extends DefaultListModel<String> {
     private final ArrayList<BuddyInfo> myBuddies;
     private final DefaultListModel<String> listModel = new DefaultListModel<>();
 
@@ -51,13 +51,17 @@ public class AddressBook extends DefaultListModel {
      * Remove buddyInfo object from addressBook.
      * @param index    index value of myBuddies
      */
-    public BuddyInfo removeBuddy(int index) {
+    public void removeBuddy(int index) {
         if (index >= 0 && index < myBuddies.size()) {
             this.myBuddies.remove(index);
         }
-        return null;
     }
 
+    /**
+     * Get a BuddyInfo object from an index.
+     * @param index int
+     * @return  BuddyInfo
+     */
     public BuddyInfo getBuddy(int index) {
         if (index >= 0 && index < myBuddies.size()) {
             return this.myBuddies.get(index);

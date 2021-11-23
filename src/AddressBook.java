@@ -9,7 +9,8 @@ import java.util.ArrayList;
  * This class maintains the collection of the BuddyInfo object.
  * @author Trong Nguyen
  */
-public class AddressBook extends DefaultListModel<String> {
+public class AddressBook extends DefaultListModel<String> implements Serializable {
+    public static final String ADDRESSBOOK_TAG = "addressBook";
     private final ArrayList<BuddyInfo> myBuddies;
     private final DefaultListModel<String> listModel = new DefaultListModel<>();
 
@@ -127,4 +128,49 @@ public class AddressBook extends DefaultListModel<String> {
         }
         return true;
     }
+
+    public boolean exportToXML(String filename) {
+        try {
+            FileWriter fw = new FileWriter(filename);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("<" + ADDRESSBOOK_TAG + ">" + "\n");
+            for (BuddyInfo b : myBuddies) {
+                sb.append(b.toXML());
+            }
+            sb.append("</" + ADDRESSBOOK_TAG + ">" + "\n");
+
+            fw.write(sb.toString());
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Reads a file given a file name as a parameter, and updates the address book GUI.
+     * @param filename  String
+     */
+    public boolean readXMLImport(String filename) {
+        try {
+            FileReader fr = new FileReader(filename);
+            BufferedReader br = new BufferedReader(fr);
+            for (String addressLine = br.readLine(); addressLine != null; addressLine = br.readLine()) {
+                /*BuddyInfo b = BuddyInfo.fromXML();
+                this.myBuddies.add(b);
+                listModel.addElement(b.toString());*/
+            }
+            br.close();
+            fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 }

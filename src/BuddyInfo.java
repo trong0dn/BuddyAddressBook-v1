@@ -1,13 +1,19 @@
 // STUDENT NAME: Trong Nguyen
 // STUDENT NUMBER: 100848232
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * This class contains information about a buddy.
  * @author Trong Nguyen
  */
-public class BuddyInfo {
+public class BuddyInfo implements Serializable {
+    private static final String BUDDY_TAG = "buddyInfo";
+    private static final String NAME_TAG = "name";
+    private static final String ADDRESS_TAG = "address";
+    private static final String PHONE_TAG = "phoneNumber";
+
     private String name;
     private String address;
     private String phoneNumber;
@@ -117,5 +123,26 @@ public class BuddyInfo {
     static BuddyInfo stringImport(String addressLine) {
         String[] info = addressLine.split(",");
         return new BuddyInfo(info[0], info[1], info[2]);
+    }
+
+    private String createXMLElement(String tag, String value) {
+        return "<" + tag + ">" + value + "</" + tag + ">";
+    }
+
+    public String toXML() {
+        return "<" + BUDDY_TAG + ">" + "\n" +
+                "\t" + createXMLElement(NAME_TAG, name) + "\n" +
+                "\t" + createXMLElement(ADDRESS_TAG, address) + "\n" +
+                "\t" + createXMLElement(PHONE_TAG, phoneNumber) + "\n" +
+                "</" + BUDDY_TAG + ">" + "\n";
+    }
+
+    public String fromXML() {
+        String[] fields = new String[3];
+        fields[0] = this.name;
+        fields[1] = this.address;
+        fields[2] = this.phoneNumber;
+
+        return String.join(",", fields);
     }
 }

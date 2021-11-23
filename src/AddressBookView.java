@@ -36,6 +36,8 @@ public class AddressBookView extends JFrame {
         addressBookMenu.add(createMenuItem());
         addressBookMenu.add(saveTxtMenuItem());
         addressBookMenu.add(importTxtMenuItem());
+        addressBookMenu.add(saveXMLMenuItem());
+        addressBookMenu.add(importXMLMenuItem());
         buddyInfoMenu.add(addMenuItem());
         buddyInfoMenu.add(removeMenuItem());
         buddyInfoMenu.add(editMenuItem());
@@ -177,7 +179,7 @@ public class AddressBookView extends JFrame {
      * @return  JMenuItem
      */
     private JMenuItem saveTxtMenuItem() {
-        JMenuItem saveMenuItem = new JMenuItem("Save Txt");
+        JMenuItem saveMenuItem = new JMenuItem("Save TXT");
         saveMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to save:");
             if (addressBook.save(filename + ".txt")) {
@@ -195,10 +197,46 @@ public class AddressBookView extends JFrame {
      * @return  JMenuItem
      */
     private JMenuItem importTxtMenuItem() {
-        JMenuItem importMenuItem = new JMenuItem("Import");
+        JMenuItem importMenuItem = new JMenuItem("Import TXT");
         importMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to import:");
             if (addressBook.readTxtImport(filename + ".txt")) {
+                JOptionPane.showMessageDialog(this, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        return importMenuItem;
+    }
+
+    /**
+     * Create the menu item for Save address book.
+     * Saves an XML file.
+     * @return  JMenuItem
+     */
+    private JMenuItem saveXMLMenuItem() {
+        JMenuItem saveMenuItem = new JMenuItem("Save XML");
+        saveMenuItem.addActionListener(e -> {
+            String filename = JOptionPane.showInputDialog(this,"Enter name of .xml file to save:");
+            if (addressBook.exportToXML(filename + ".xml")) {
+                JOptionPane.showMessageDialog(this, "Save Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Saving Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        return saveMenuItem;
+    }
+
+    /**
+     * Create the import menu item for Import address book.
+     * Import XML file.
+     * @return  JMenuItem
+     */
+    private JMenuItem importXMLMenuItem() {
+        JMenuItem importMenuItem = new JMenuItem("Import XML");
+        importMenuItem.addActionListener(e -> {
+            String filename = JOptionPane.showInputDialog(this,"Enter name of .xml file to import:");
+            if (addressBook.readXMLImport(filename + ".xml")) {
                 JOptionPane.showMessageDialog(this, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);

@@ -177,7 +177,7 @@ public class AddressBookView extends JFrame {
      * @return  JMenuItem
      */
     private JMenuItem saveTxtMenuItem() {
-        JMenuItem saveMenuItem = new JMenuItem("Save");
+        JMenuItem saveMenuItem = new JMenuItem("Save Txt");
         saveMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to save:");
             if (addressBook.save(filename + ".txt")) {

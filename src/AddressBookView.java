@@ -117,6 +117,10 @@ public class AddressBookView extends JFrame {
         return removeMenuItem;
     }
 
+    /**
+     * Create the menu item for Edit a buddy.
+     * @return  JMenuItem
+     */
     private JMenuItem editMenuItem() {
         JMenuItem editMenuItem = new JMenuItem("Edit");
         editMenuItem.addActionListener(e -> {
@@ -132,6 +136,13 @@ public class AddressBookView extends JFrame {
         return editMenuItem;
     }
 
+    /**
+     * Helper method to update the edit buddy information.
+     * @param oldName           String
+     * @param oldAddress        String
+     * @param oldPhoneNumber    String
+     * @return  BuddyInfo
+     */
     private BuddyInfo updateBuddyInfo(String oldName, String oldAddress, String oldPhoneNumber) {
         JPanel panel = new JPanel(new GridLayout(3, 2));
         JLabel labelName = new JLabel("Enter new Buddy Name:");

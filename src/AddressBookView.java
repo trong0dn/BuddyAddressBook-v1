@@ -193,8 +193,9 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
      * @param actionEvent   ActionEvent
      */
     private void saveAddressBook(ActionEvent actionEvent) {
-        if (currentAddressBook == null)
+        if (currentAddressBook == null) {
             return;
+        }
         currentAddressBook.export();
         JOptionPane.showMessageDialog(this, "Address Book has been saved to file");
     }
@@ -213,8 +214,9 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
      */
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        if (e.getValueIsAdjusting())
+        if (e.getValueIsAdjusting()) {
             return;
+        }
 
         int selectedIndex = currentBuddyInfoList.getSelectedIndex();
 

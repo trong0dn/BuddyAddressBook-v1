@@ -20,7 +20,7 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
     public AddressBook() {
         super();
         myBuddies = new ArrayList<>();
-        //init();
+        init();
     }
 
     /**
@@ -129,6 +129,11 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
         return true;
     }
 
+    /**
+     * Export the address book to an XML file.
+     * @param filename  String
+     * @return  boolean
+     */
     public boolean exportToXML(String filename) {
         try {
             FileWriter fw = new FileWriter(filename);

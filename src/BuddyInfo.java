@@ -125,10 +125,20 @@ public class BuddyInfo implements Serializable {
         return new BuddyInfo(info[0], info[1], info[2]);
     }
 
+    /**
+     * Create an XML tag for a simple element.
+     * @param tag       String
+     * @param value     String
+     * @return          String
+     */
     private String createXMLElement(String tag, String value) {
         return "\t" + "<" + tag + ">" + value + "</" + tag + ">";
     }
 
+    /**
+     * Convert address book elements to XML format.
+     * @return  String
+     */
     public String toXML() {
         return "\t" + "<" + BUDDY_TAG + ">" + "\n" +
                 "\t" + createXMLElement(NAME_TAG, name) + "\n" +

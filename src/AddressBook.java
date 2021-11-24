@@ -52,6 +52,13 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
     }
 
     /**
+     * Clear myBuddies ArrayList.
+     */
+    public void clear() {
+        this.myBuddies.clear();
+    }
+
+    /**
      * Get a BuddyInfo object from an index.
      * @param index int
      * @return  BuddyInfo

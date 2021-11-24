@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
  */
 public class AddressBookView extends JFrame {
     private JList<String> buddyInfoList;
-    private final AddressBook addressBook;
+    private AddressBook addressBook;
 
     /**
      * Constructor for AddressBookView.

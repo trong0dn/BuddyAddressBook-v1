@@ -1,6 +1,17 @@
 // STUDENT NAME: Trong Nguyen
 // STUDENT NUMBER: 100848232
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,10 +20,10 @@ import java.util.Objects;
  * @author Trong Nguyen
  */
 public class BuddyInfo implements Serializable {
-    private static final String BUDDY_TAG = "buddyInfo";
-    private static final String NAME_TAG = "name";
-    private static final String ADDRESS_TAG = "address";
-    private static final String PHONE_TAG = "phoneNumber";
+    public static final String BUDDY_TAG = "buddyInfo";
+    public static final String NAME_TAG = "name";
+    public static final String ADDRESS_TAG = "address";
+    public static final String PHONE_TAG = "phoneNumber";
 
     private String name;
     private String address;
@@ -147,12 +158,7 @@ public class BuddyInfo implements Serializable {
                 "\t" + "</" + BUDDY_TAG + ">" + "\n";
     }
 
-    public String fromXML() {
-        String[] fields = new String[3];
-        fields[0] = this.name;
-        fields[1] = this.address;
-        fields[2] = this.phoneNumber;
-
-        return String.join(",", fields);
+    static BuddyInfo fromXML(String name, String address, String phoneNumber) {
+        return new BuddyInfo(name, address, phoneNumber);
     }
 }

@@ -1,7 +1,16 @@
 // STUDENT NAME: Trong Nguyen
 // STUDENT NUMBER: 100848232
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -145,21 +154,34 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
      * @param filename  String
      */
     public boolean readXMLImport(String filename) {
+        String name;
+        String address;
+        String phoneNumber;
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
-            FileReader fr = new FileReader(filename);
-            BufferedReader br = new BufferedReader(fr);
-            int count = 0;
-            for (String addressLine = br.readLine(); addressLine != null; addressLine = br.readLine()) {
-                System.out.println(count++);
-                System.out.println(addressLine);
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new File(filename));
+            doc.getDocumentElement().normalize();
+
+            // System.out.println("Root Element: " + doc.getDocumentElement().getNodeName());
+            NodeList list = doc.getElementsByTagName(BuddyInfo.BUDDY_TAG);
+            for (int temp = 0; temp < list.getLength(); temp++) {
+                Node node = list.item(temp);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    name = element.getElementsByTagName(BuddyInfo.NAME_TAG).item(0).getTextContent();
+                    address = element.getElementsByTagName(BuddyInfo.ADDRESS_TAG).item(0).getTextContent();
+                    phoneNumber = element.getElementsByTagName(BuddyInfo.PHONE_TAG).item(0).getTextContent();
+                    BuddyInfo b = BuddyInfo.fromXML(name, address, phoneNumber);
+                    // System.out.println("Current Element: " + node.getNodeName());
+                    this.myBuddies.add(b);
+                    listModel.addElement(b.toString());
+                }
             }
-            br.close();
-            fr.close();
-        } catch (IOException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
-            return false;
         }
         return true;
     }
-
 }
+

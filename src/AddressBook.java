@@ -20,22 +20,6 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
     public AddressBook() {
         super();
         myBuddies = new ArrayList<>();
-        init();
-    }
-
-    /**
-     * Initializes the AddressBook with some Buddies.
-     */
-    public void init() {
-        this.addBuddy(new BuddyInfo("Homer", "123 Street", "555-123-4567"));
-        this.addBuddy(new BuddyInfo("Marge", "321 Avenue", "555-321-7654"));
-        this.addBuddy(new BuddyInfo("Bart", "456 Road", "555-654-1234"));
-        this.addBuddy(new BuddyInfo("Lisa", "654 Crescent", "555-789-9876"));
-        this.addBuddy(new BuddyInfo("Maggie", "789 Private", "555-987-7654"));
-
-        for (BuddyInfo b : myBuddies) {
-            listModel.addElement(b.toString());
-        }
     }
 
     /**
@@ -164,7 +148,9 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
         try {
             FileReader fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
+            int count = 0;
             for (String addressLine = br.readLine(); addressLine != null; addressLine = br.readLine()) {
+                System.out.println(count++);
                 System.out.println(addressLine);
             }
             br.close();

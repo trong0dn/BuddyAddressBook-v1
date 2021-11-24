@@ -20,6 +20,22 @@ public class AddressBookView extends JFrame {
     public AddressBookView() {
         super();
         setAddressBook(new AddressBook());
+        init();
+    }
+
+    /**
+     * Initializes the AddressBook with some Buddies.
+     */
+    public void init() {
+        addressBook.addBuddy(new BuddyInfo("Homer", "123 Street", "555-123-4567"));
+        addressBook.addBuddy(new BuddyInfo("Marge", "321 Avenue", "555-321-7654"));
+        addressBook.addBuddy(new BuddyInfo("Bart", "456 Road", "555-654-1234"));
+        addressBook.addBuddy(new BuddyInfo("Lisa", "654 Crescent", "555-789-9876"));
+        addressBook.addBuddy(new BuddyInfo("Maggie", "789 Private", "555-987-7654"));
+
+        for (BuddyInfo b : addressBook.getMyBuddies()) {
+            addressBook.getListModel().addElement(b.toString());
+        }
     }
 
     /**
@@ -125,8 +141,10 @@ public class AddressBookView extends JFrame {
         editMenuItem.addActionListener(e -> {
             int index = buddyInfoList.getSelectedIndex();
             BuddyInfo selectedBuddy = addressBook.getBuddy(index);
+            if (selectedBuddy == null) {
+                return;
+            }
             BuddyInfo editedBuddy = updateBuddyInfo(selectedBuddy.getName(), selectedBuddy.getAddress(), selectedBuddy.getPhoneNumber());
-            System.out.println(editedBuddy.getName());
             selectedBuddy.setName(editedBuddy.getName());
             selectedBuddy.setAddress(editedBuddy.getAddress());
             selectedBuddy.setPhoneNumber(editedBuddy.getPhoneNumber());

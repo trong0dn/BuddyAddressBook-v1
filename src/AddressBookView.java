@@ -12,14 +12,14 @@ import java.awt.event.WindowEvent;
  */
 public class AddressBookView extends JFrame {
     private JList<String> buddyInfoList;
-    private AddressBook addressBook;
+    private final AddressBook addressBook;
 
     /**
      * Constructor for AddressBookView.
      */
     public AddressBookView() {
         super();
-        setAddressBook(new AddressBook());
+        this.addressBook = new AddressBook();
         init();
     }
 
@@ -36,14 +36,6 @@ public class AddressBookView extends JFrame {
         for (BuddyInfo b : addressBook.getMyBuddies()) {
             addressBook.getListModel().addElement(b.toString());
         }
-    }
-
-    /**
-     * Set Address Book.
-     * @param addressBook   AddressBook
-     */
-    public void setAddressBook(AddressBook addressBook) {
-        this.addressBook = addressBook;
     }
 
     /**
@@ -69,8 +61,8 @@ public class AddressBookView extends JFrame {
         menuBar.add(addressBookMenu);
         menuBar.add(buddyInfoMenu);
 
-        buddyInfoList = new JList<>(addressBook.getListModel());
-        buddyInfoList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.buddyInfoList = new JList<>(addressBook.getListModel());
+        this.buddyInfoList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.add(buddyInfoList);
         this.setJMenuBar(menuBar);
         this.pack();
@@ -108,8 +100,8 @@ public class AddressBookView extends JFrame {
             panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
             JOptionPane.showMessageDialog(this, panel, "Add a new Buddy", JOptionPane.INFORMATION_MESSAGE);
             BuddyInfo newBuddy = new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
-            addressBook.addBuddy(newBuddy);
-            addressBook.getListModel().addElement(newBuddy.toString());
+            this.addressBook.addBuddy(newBuddy);
+            this.addressBook.getListModel().addElement(newBuddy.toString());
         });
         return addMenuItem;
     }
@@ -123,8 +115,8 @@ public class AddressBookView extends JFrame {
         removeMenuItem.addActionListener(e -> {
             int index = buddyInfoList.getSelectedIndex();
             if (index != -1) {
-                addressBook.removeBuddy(index);
-                addressBook.getListModel().remove(index);
+                this.addressBook.removeBuddy(index);
+                this.addressBook.getListModel().remove(index);
             } else {
                 JOptionPane.showMessageDialog(this, "Select a Buddy to remove");
             }
@@ -148,7 +140,7 @@ public class AddressBookView extends JFrame {
             selectedBuddy.setName(editedBuddy.getName());
             selectedBuddy.setAddress(editedBuddy.getAddress());
             selectedBuddy.setPhoneNumber(editedBuddy.getPhoneNumber());
-            addressBook.getListModel().set(index, selectedBuddy.toString());
+            this.addressBook.getListModel().set(index, selectedBuddy.toString());
         });
         return editMenuItem;
     }
@@ -182,9 +174,8 @@ public class AddressBookView extends JFrame {
     private JMenuItem createMenuItem() {
         JMenuItem createMenuItem = new JMenuItem("Create");
         createMenuItem.addActionListener(e -> {
-            addressBook.getListModel().clear();
-            buddyInfoList.removeAll();
-            setAddressBook(new AddressBook());
+            this.addressBook.getListModel().clear();
+            this.addressBook.clear();
         });
         return createMenuItem;
     }

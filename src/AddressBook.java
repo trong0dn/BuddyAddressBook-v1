@@ -20,7 +20,7 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
     public AddressBook() {
         super();
         myBuddies = new ArrayList<>();
-        init();
+        //init();
     }
 
     /**
@@ -56,6 +56,10 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
         if (index >= 0 && index < myBuddies.size()) {
             this.myBuddies.remove(index);
         }
+    }
+
+    public void clear() {
+        super.clear();
     }
 
     /**

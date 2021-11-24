@@ -84,20 +84,8 @@ public class AddressBookView extends JFrame {
             panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
             JOptionPane.showMessageDialog(this, panel, "Add a new Buddy", JOptionPane.INFORMATION_MESSAGE);
             BuddyInfo newBuddy = new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
-            boolean exist = false;
-            for (BuddyInfo oldBuddy : addressBook.getMyBuddies()) {
-                if (oldBuddy.equals(newBuddy)) {
-                    JOptionPane.showMessageDialog(this, "Buddy already exist in AddressBook");
-                    exist = false;
-                    break;
-                } else {
-                    exist = true;
-                }
-            }
-            if (exist) {
-                addressBook.addBuddy(newBuddy);
-                addressBook.getListModel().addElement(newBuddy.toString());
-            }
+            addressBook.addBuddy(newBuddy);
+            addressBook.getListModel().addElement(newBuddy.toString());
         });
         return addMenuItem;
     }

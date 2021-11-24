@@ -85,8 +85,7 @@ public class BuddyInfo implements Serializable {
      * Return the toString method of BuddyInfo.
      * BuddyInfo is displayed on a single line, with each attribute of the BuddyInfo separated from one another using
      * a special character.
-     * Example output:
-     * "Mr. Buddy#111 Fake Street#613-555-5555"
+     * Example output: "Mr. Buddy#111 Fake Street#613-555-5555"
      *
      * @return      String
      */
@@ -113,7 +112,7 @@ public class BuddyInfo implements Serializable {
     }
 
     /**
-     * BuddyInfo that takes a string parameter of the form: "Mr. Buddy,111 Fake Street,613-555-5555"
+     * BuddyInfo that takes a string parameter of the form: "Mr. Buddy#111 Fake Street#613-555-5555"
      * @param addressLine   String
      * @return  BuddyInfo object
      */
@@ -133,7 +132,7 @@ public class BuddyInfo implements Serializable {
     }
 
     /**
-     * Convert address book elements to XML format.
+     * Convert AddressBook elements to XML format.
      * @return  String
      */
     public String toXML() {

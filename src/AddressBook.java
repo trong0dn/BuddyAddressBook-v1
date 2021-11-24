@@ -6,11 +6,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import javax.swing.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * @author Trong Nguyen
  */
 public class AddressBook extends DefaultListModel<String> implements Serializable {
-    public static final String ADDRESSBOOK_TAG = "addressBook";
+    public static final String ADDRESSBOOK_TAG = "AddressBook";
     private final ArrayList<BuddyInfo> myBuddies;
     private final DefaultListModel<String> listModel = new DefaultListModel<>();
 
@@ -134,7 +133,7 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
      * @param filename  String
      * @return  boolean
      */
-    public boolean exportToXML(String filename) {
+    public boolean exportToXmlFile(String filename) {
         try {
             FileWriter fw = new FileWriter(filename);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -160,7 +159,7 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
      * Reads a file given a file name as a parameter, and updates the address book GUI.
      * @param filename  String
      */
-    public boolean readXMLImport(String filename) {
+    public boolean importFromXmlFile(String filename) {
         String name;
         String address;
         String phoneNumber;
@@ -172,8 +171,8 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
 
             // System.out.println("Root Element: " + doc.getDocumentElement().getNodeName());
             NodeList list = doc.getElementsByTagName(BuddyInfo.BUDDY_TAG);
-            for (int temp = 0; temp < list.getLength(); temp++) {
-                Node node = list.item(temp);
+            for (int i = 0; i < list.getLength(); i++) {
+                Node node = list.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
                     name = element.getElementsByTagName(BuddyInfo.NAME_TAG).item(0).getTextContent();

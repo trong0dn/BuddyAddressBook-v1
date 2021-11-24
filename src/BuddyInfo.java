@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Trong Nguyen
  */
 public class BuddyInfo implements Serializable {
-    public static final String BUDDY_TAG = "buddyInfo";
+    public static final String BUDDY_TAG = "BuddyInfo";
     public static final String NAME_TAG = "name";
     public static final String ADDRESS_TAG = "address";
     public static final String PHONE_TAG = "phoneNumber";

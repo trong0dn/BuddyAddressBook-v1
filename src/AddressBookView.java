@@ -225,7 +225,7 @@ public class AddressBookView extends JFrame {
         JMenuItem saveMenuItem = new JMenuItem("Save XML");
         saveMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .xml file to save:");
-            if (addressBook.exportToXML(filename + ".xml")) {
+            if (addressBook.exportToXmlFile(filename + ".xml")) {
                 JOptionPane.showMessageDialog(this, "Save Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Saving Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -243,7 +243,7 @@ public class AddressBookView extends JFrame {
         JMenuItem importMenuItem = new JMenuItem("Import XML");
         importMenuItem.addActionListener(e -> {
             String filename = JOptionPane.showInputDialog(this,"Enter name of .xml file to import:");
-            if (addressBook.readXMLImport(filename + ".xml")) {
+            if (addressBook.importFromXmlFile(filename + ".xml")) {
                 JOptionPane.showMessageDialog(this, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);

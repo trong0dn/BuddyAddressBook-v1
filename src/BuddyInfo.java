@@ -143,8 +143,4 @@ public class BuddyInfo implements Serializable {
                 "\t" + createXMLElement(PHONE_TAG, phoneNumber) + "\n" +
                 "\t" + "</" + BUDDY_TAG + ">" + "\n";
     }
-
-    static BuddyInfo fromXML(String name, String address, String phoneNumber) {
-        return new BuddyInfo(name, address, phoneNumber);
-    }
 }

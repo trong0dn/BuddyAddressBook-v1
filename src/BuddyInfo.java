@@ -2,21 +2,24 @@
 // STUDENT NUMBER: 100848232
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * This class contains information about a buddy.
  * @author Trong Nguyen
  */
 public class BuddyInfo implements Serializable {
+    private String name;
+    private String address;
+    private String phoneNumber;
+
+    private static final int NAME_IDX = 0;
+    private static final int ADDRESS_IDX = 1;
+    private static final int PHONE_IDX = 2;
+
     public static final String BUDDY_TAG = "BuddyInfo";
     public static final String NAME_TAG = "name";
     public static final String ADDRESS_TAG = "address";
     public static final String PHONE_TAG = "phoneNumber";
-
-    private String name;
-    private String address;
-    private String phoneNumber;
 
     /**
      * Constructor for BuddyInfo.
@@ -83,13 +86,13 @@ public class BuddyInfo implements Serializable {
      * BuddyInfo is displayed on a single line, with each attribute of the BuddyInfo separated from one another using
      * a special character.
      * Example output:
-     * "Mr. Buddy,111 Fake Street,613-555-5555"
+     * "Mr. Buddy#111 Fake Street#613-555-5555"
      *
      * @return      String
      */
     @Override
     public String toString() {
-        return String.format("%s,%s,%s\n", name, address, phoneNumber);
+        return String.format("%s#%s#%s\n", name, address, phoneNumber);
     }
 
     /**
@@ -105,14 +108,8 @@ public class BuddyInfo implements Serializable {
         if (obj.getClass() != this.getClass()) {
             return false;
         }
-        final BuddyInfo other = (BuddyInfo) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.address, other.address)) {
-            return false;
-        }
-        return Objects.equals(this.phoneNumber, other.phoneNumber);
+        BuddyInfo otherBuddy = (BuddyInfo) obj;
+        return this.name.equals(otherBuddy.name) && this.address.equals(otherBuddy.address) && this.phoneNumber.equals(otherBuddy.phoneNumber);
     }
 
     /**
@@ -121,8 +118,8 @@ public class BuddyInfo implements Serializable {
      * @return  BuddyInfo object
      */
     static BuddyInfo stringImport(String addressLine) {
-        String[] info = addressLine.split(",");
-        return new BuddyInfo(info[0], info[1], info[2]);
+        String[] tokens = addressLine.split("#");
+        return new BuddyInfo(tokens[NAME_IDX], tokens[ADDRESS_IDX], tokens[PHONE_IDX]);
     }
 
     /**

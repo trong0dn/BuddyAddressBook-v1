@@ -18,6 +18,8 @@ import java.util.ArrayList;
  * @author Trong Nguyen
  */
 public class AddressBook extends DefaultListModel<String> implements Serializable {
+    public static final String ADDRESSBOOK_TXT_FILE = "Address_Book.txt";
+    public static final String ADDRESSBOOK_XML_FILE = "Address_Book.xml";
     public static final String ADDRESSBOOK_TAG = "AddressBook";
     private final ArrayList<BuddyInfo> myBuddies;
     private final DefaultListModel<String> listModel = new DefaultListModel<>();

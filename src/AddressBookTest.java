@@ -1,21 +1,20 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 
 import static org.junit.Assert.*;
 
 public class AddressBookTest {
+    private AddressBook emptyAddressBook;
+    private AddressBook oneBuddyAddressBook;
+    private AddressBook twoBuddyAddressBook;
+    private AddressBook threeBuddyAddressBook;
 
-    private AddressBook emptyAddressBook = null;
-    private AddressBook oneBuddyAddressBook = null;
-    private AddressBook twoBuddyAddressBook = null;
-
-    private BuddyInfo firstBuddy = new BuddyInfo("Buddy1", "", "");
-    private BuddyInfo secondBuddy = new BuddyInfo("Buddy2", "", "");
+    private final BuddyInfo firstBuddy = new BuddyInfo("Buddy1", "Address1", "Phone1");
+    private final BuddyInfo secondBuddy = new BuddyInfo("Buddy2", "Address2", "Phone2");
+    private final BuddyInfo thirdBuddy = new BuddyInfo("Buddy3", "Address3", "Phone3");
 
 
     @Before
@@ -29,129 +28,122 @@ public class AddressBookTest {
         twoBuddyAddressBook.addBuddy(firstBuddy);
         twoBuddyAddressBook.addBuddy(secondBuddy);
 
+        threeBuddyAddressBook = new AddressBook();
+        threeBuddyAddressBook.addBuddy(firstBuddy);
+        threeBuddyAddressBook.addBuddy(secondBuddy);
+        threeBuddyAddressBook.addBuddy(thirdBuddy);
 
-        // Remove any existing serializations
+        // Clear existing serializations
         File file = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
-        file.delete();
+        file.deleteOnExit();
 
         file = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
-        file.delete();
+        file.deleteOnExit();
     }
 
     @Test
-    public void testSize()
-    {
+    public void testSize() {
         assertEquals(emptyAddressBook.size(), 0);
         assertEquals(oneBuddyAddressBook.size(), 1);
         assertEquals(twoBuddyAddressBook.size(), 2);
+        assertEquals(threeBuddyAddressBook.size(), 3);
     }
 
     @Test
-    public void testXMLExport() throws IOException, ClassNotFoundException {
-        testXMLExport(emptyAddressBook);
-        testXMLExport(oneBuddyAddressBook);
-        testXMLExport(twoBuddyAddressBook);
-    }
-/*
-    @Test
-    public void testEmptyXMLImport() throws IOException, ParserConfigurationException, SAXException {
+    public void testEmptyXMLImport() {
         emptyAddressBook.exportToXMLFile();
-        testXMLImport(emptyAddressBook);
-    }
-
-    @Test
-    public void testOneXMLImport() throws IOException, ParserConfigurationException, SAXException {
-        oneBuddyAddressBook.exportToXMLFile();
-        testXMLImport(oneBuddyAddressBook);
-    }
-
-    @Test
-    public void testTwoXMLImport() throws IOException, ParserConfigurationException, SAXException {
-        twoBuddyAddressBook.exportToXMLFile();
-        testXMLImport(twoBuddyAddressBook);
-    }
-
-    public void testXMLImport() throws IOException, ParserConfigurationException, SAXException {
         AddressBook importedBook = AddressBook.importFromXMLFile();
-        assertEquals(addressBook, importedBook);
+        assertEquals(emptyAddressBook, importedBook);
     }
-*/
-  /*  @Test
-    public void testToXML()
-    {
-        testToXML(emptyAddressBook);
-        testToXML(oneBuddyAddressBook);
-        testToXML(twoBuddyAddressBook);
-    }*/
-/*
+
     @Test
-    public void testToXML()
-    {
-        String toXML = addressBook.toXML();
+    public void testOneXMLImport() {
+        oneBuddyAddressBook.exportToXMLFile();
+        AddressBook importedBook = AddressBook.importFromXMLFile();
+        assertEquals(oneBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testTwoXMLImport() {
+        twoBuddyAddressBook.exportToXMLFile();
+        AddressBook importedBook = AddressBook.importFromXMLFile();
+        assertEquals(twoBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testThreeXMLImport() {
+        threeBuddyAddressBook.exportToXMLFile();
+        AddressBook importedBook = AddressBook.importFromXMLFile();
+        assertEquals(threeBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testToXML() {
+        String toXML = threeBuddyAddressBook.toXML();
         assertTrue("Needs opening book tag", toXML.contains("<" + AddressBook.ADDRESS_BOOK_TAG + ">"));
         assertTrue("Needs closing book tag", toXML.contains("</" + AddressBook.ADDRESS_BOOK_TAG + ">"));
 
-        for (int i = 0; i < addressBook.size(); i++) {
-            assertTrue("Needs Buddy", toXML.contains(addressBook.get(i).toXML()));
+        for (int i = 0; i < threeBuddyAddressBook.size(); i++) {
+            assertTrue("Needs Buddy", toXML.contains(threeBuddyAddressBook.get(i).toXML()));
         }
-    }*/
+    }
 
-    private void testXMLExport(AddressBook addressBook) throws IOException, ClassNotFoundException {
-        addressBook.exportToXMLFile();
+    @Test
+    public void testXMLExport() throws IOException {
+        threeBuddyAddressBook.exportToXMLFile();
         File xmlFile = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
 
-        // Just read in the whole file and compare to toXML
+        // Compare input stream to XML
         FileInputStream fis = new FileInputStream(xmlFile);
 
+        // Comparing the bytecode in the XML file
         byte[] data = new byte[(int) xmlFile.length()];
-
-        if(fis.read(data) == -1)
-        {
+        if (fis.read(data) == -1) {
             Assert.fail("Failed to read XML file");
         }
-
         fis.close();
-
         String str = new String(data);
-        assertEquals(addressBook.toXML(), str);
+        assertEquals(threeBuddyAddressBook.toXML(), str);
     }
 
-
     @Test
-    public void testEmptyExportAndImport() throws IOException, ClassNotFoundException {
+    public void testEmptyExportAndImport() {
         emptyAddressBook.export();
-        testImportAddressBook(emptyAddressBook);
-    }
-
-    @Test
-    public void testOneExportAndImport() throws IOException, ClassNotFoundException {
-        oneBuddyAddressBook.export();
-        testImportAddressBook(oneBuddyAddressBook);
-    }
-
-    @Test
-    public void testTwoExportAndImport() throws IOException, ClassNotFoundException {
-        twoBuddyAddressBook.export();
-        testImportAddressBook(twoBuddyAddressBook);
-    }
-
-    private void testImportAddressBook(AddressBook addressBook) throws IOException, ClassNotFoundException {
         AddressBook importedBook = AddressBook.importAddressBook();
-        assertEquals(addressBook, importedBook);
+        assertEquals(emptyAddressBook, importedBook);
     }
 
+    @Test
+    public void testOneExportAndImport() {
+        oneBuddyAddressBook.export();
+        AddressBook importedBook = AddressBook.importAddressBook();
+        assertEquals(oneBuddyAddressBook, importedBook);
+    }
 
     @Test
-    public void testClear()
-    {
+    public void testTwoExportAndImport() {
+        twoBuddyAddressBook.export();
+        AddressBook importedBook = AddressBook.importAddressBook();
+        assertEquals(twoBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testThreeExportAndImport() {
+        threeBuddyAddressBook.export();
+        AddressBook importedBook = AddressBook.importAddressBook();
+        assertEquals(threeBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testClear() {
         emptyAddressBook.clear();
         oneBuddyAddressBook.clear();
         twoBuddyAddressBook.clear();
+        threeBuddyAddressBook.clear();
 
         assertEquals(emptyAddressBook.size(), 0);
         assertEquals(oneBuddyAddressBook.size(), 0);
         assertEquals(twoBuddyAddressBook.size(), 0);
+        assertEquals(threeBuddyAddressBook.size(), 0);
     }
-
-
 }

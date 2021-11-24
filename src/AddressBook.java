@@ -1,195 +1,191 @@
 // STUDENT NAME: Trong Nguyen
 // STUDENT NUMBER: 100848232
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.swing.*;
 import javax.xml.parsers.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class maintains the collection of the BuddyInfo object.
  * @author Trong Nguyen
  */
-public class AddressBook extends DefaultListModel<String> implements Serializable {
-    public static final String ADDRESSBOOK_TXT_FILE = "Address_Book.txt";
-    public static final String ADDRESSBOOK_XML_FILE = "Address_Book.xml";
-    public static final String ADDRESSBOOK_TAG = "AddressBook";
-    private final ArrayList<BuddyInfo> myBuddies;
-    private final DefaultListModel<String> listModel = new DefaultListModel<>();
-
-    /**
-     * Constructor for AddressBook.
-     */
-    public AddressBook() {
-        super();
-        myBuddies = new ArrayList<>();
-    }
+public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializable {
+    public static final String ADDRESS_BOOK_TXT_FILE = "AddressBook.txt";
+    public static final String ADDRESS_BOOK_XML_FILE = "AddressBook.xml";
+    public static final String ADDRESS_BOOK_TAG = "addressbook";
 
     /**
      * Add buddyInfo object to addressBook.
      * @param aBuddy     BuddyInfo object
      */
     public void addBuddy(BuddyInfo aBuddy) {
-        if (aBuddy != null) {
-            this.myBuddies.add(aBuddy);
-        }
+        if (aBuddy == null || super.contains(aBuddy))
+            return;
+        super.addElement(aBuddy);
     }
 
     /**
      * Remove buddyInfo object from addressBook.
-     * @param index    index value of myBuddies
+     * @ @param aBuddy     BuddyInfo object
      */
-    public void removeBuddy(int index) {
-        if (index >= 0 && index < myBuddies.size()) {
-            this.myBuddies.remove(index);
+    public void removeBuddy(BuddyInfo aBuddy) {
+        if (aBuddy == null || !super.contains(aBuddy))
+            return;
+        super.removeElement(aBuddy);
+    }
+
+    /**
+     * Get the size of the address book.
+     * @return  int
+     */
+    public int size() {
+        return super.size();
+    }
+
+    /**
+     * Clear the address book.
+     */
+    public void clear() {
+        super.clear();
+    }
+
+    /**
+     * Saves the address book contents to a pre-defined file name.
+     */
+    public void export() {
+        try {
+            this.exportToXMLFile();
+            FileOutputStream fileOutputStream = new FileOutputStream(ADDRESS_BOOK_TXT_FILE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(this);
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     /**
-     * Clear myBuddies ArrayList.
+     * Reads a file given a file name as a parameter, and updates the address book GUI.
+     * @return  AddressBook
      */
-    public void clear() {
-        this.myBuddies.clear();
-    }
-
-    /**
-     * Get a BuddyInfo object from an index.
-     * @param index int
-     * @return  BuddyInfo
-     */
-    public BuddyInfo getBuddy(int index) {
-        if (index >= 0 && index < myBuddies.size()) {
-            return this.myBuddies.get(index);
+    public static AddressBook importAddressBook() {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(ADDRESS_BOOK_TXT_FILE);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            return (AddressBook) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     /**
-     * Get the DefaultListModel from AddressBook.
-     * @return         DefaultListModel<String> object
+     * Converts the contents of the address book into XML format.
+     * @return  String
      */
-    public DefaultListModel<String> getListModel() {
-        return this.listModel;
+    public String toXML() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<" + ADDRESS_BOOK_TAG + ">");
+        for (int i = 0; i < this.size(); i++) {
+            stringBuilder.append(this.get(i).toXML());
+        }
+        stringBuilder.append("</" + ADDRESS_BOOK_TAG + ">");
+        return stringBuilder.toString();
     }
 
     /**
-     * Get list of buddyInfo objects.
-     * @return  ArrayList<BuddyInfo>
+     * Export the address book XML file.
      */
-    public ArrayList<BuddyInfo> getMyBuddies() {
-        return this.myBuddies;
-    }
-
-    /**
-     * The save() method of AddressBook take as a parameter the file name, and save each BuddyInfo on a separate
-     * line and use BuddyInfo's toString() method.
-     * @param filename  String
-     */
-    public boolean save(String filename) {
+    public void exportToXMLFile() {
         try {
-            FileWriter fw = new FileWriter(filename);
-            BufferedWriter bw = new BufferedWriter(fw);
-            for (BuddyInfo b : myBuddies) {
-                fw.write(b.toString());
-            }
-            bw.close();
-            fw.close();
+            FileWriter fileOutputStream = new FileWriter(ADDRESS_BOOK_XML_FILE);
+            fileOutputStream.write(toXML());
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     /**
-     * Reads a file given a file name as a parameter, and updates the address book GUI.
-     * @param filename  String
+     * Imports an address book from an XML file.
+     * @return  AddressBook
+     * @throws IOException                  IOException
+     * @throws SAXException                 SAXException
+     * @throws ParserConfigurationException ParserConfigurationException
      */
-    public boolean readTxtImport(String filename) {
-        try {
-            FileReader fr = new FileReader(filename);
-            BufferedReader br = new BufferedReader(fr);
-            for (String addressLine = br.readLine(); addressLine != null; addressLine = br.readLine()) {
-                BuddyInfo b = BuddyInfo.stringImport(addressLine);
-                this.myBuddies.add(b);
-                listModel.addElement(b.toString());
+    public static AddressBook importFromXMLFile() throws IOException, SAXException, ParserConfigurationException {
+        File addressBookFile = new File(ADDRESS_BOOK_XML_FILE);
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        SAXParser s = spf.newSAXParser();
+        AddressBook currentAddressBook = new AddressBook();
+
+        DefaultHandler dh = new DefaultHandler() {
+            private final Map<String, String> buddyInfoPropertyMap = new HashMap<>();
+            private String currentKey;
+
+            @Override
+            public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+                System.out.println("Start: " + qName);
+                currentKey = qName;
             }
-            br.close();
-            fr.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
 
-    /**
-     * Export the address book to an XML file.
-     * @param filename  String
-     * @return  boolean
-     */
-    public boolean exportToXmlFile(String filename) {
-        try {
-            FileWriter fw = new FileWriter(filename);
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            StringBuilder sb = new StringBuilder();
-            sb.append("<" + ADDRESSBOOK_TAG + ">" + "\n");
-            for (BuddyInfo b : myBuddies) {
-                sb.append(b.toXML());
-            }
-            sb.append("</" + ADDRESSBOOK_TAG + ">" + "\n");
-
-            fw.write(sb.toString());
-            bw.close();
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Reads a file given a file name as a parameter, and updates the address book GUI.
-     * @param filename  String
-     */
-    public boolean importFromXmlFile(String filename) {
-        String name;
-        String address;
-        String phoneNumber;
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File(filename));
-            doc.getDocumentElement().normalize();
-
-            // System.out.println("Root Element: " + doc.getDocumentElement().getNodeName());
-            NodeList list = doc.getElementsByTagName(BuddyInfo.BUDDY_TAG);
-            for (int i = 0; i < list.getLength(); i++) {
-                Node node = list.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    name = element.getElementsByTagName(BuddyInfo.NAME_TAG).item(0).getTextContent();
-                    address = element.getElementsByTagName(BuddyInfo.ADDRESS_TAG).item(0).getTextContent();
-                    phoneNumber = element.getElementsByTagName(BuddyInfo.PHONE_TAG).item(0).getTextContent();
-                    BuddyInfo b = BuddyInfo.fromXML(name, address, phoneNumber);
-                    // System.out.println("Current Element: " + node.getNodeName());
-                    this.myBuddies.add(b);
-                    listModel.addElement(b.toString());
+            @Override
+            public void endElement(String uri, String localName, String qName) throws SAXException {
+                if (qName.equals(BuddyInfo.BUDDY_TAG)) {
+                    String name = buddyInfoPropertyMap.getOrDefault(BuddyInfo.NAME_TAG, "");
+                    String address = buddyInfoPropertyMap.getOrDefault(BuddyInfo.ADDRESS_TAG, "");
+                    String phone = buddyInfoPropertyMap.getOrDefault(BuddyInfo.PHONE_TAG, "");
+                    currentAddressBook.addBuddy(new BuddyInfo(name, address, phone));
                 }
+                System.out.println("end: " + qName);
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+
+            @Override
+            public void characters(char[] ch, int start, int length) throws SAXException {
+                String chars = new String(ch, start, length);
+                buddyInfoPropertyMap.put(currentKey, chars);
+                System.out.println("Chars: " + chars + " - " + currentKey);
+            }
+        };
+        s.parse(addressBookFile, dh);
+        return currentAddressBook;
+    }
+
+    /**
+     * Check for AddressBook object equality.
+     * @param obj   Objects
+     * @return      boolean
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof AddressBook addressBook))
+            return false;
+
+        if (this.size() != addressBook.size())
+            return false;
+
+        for (int i = 0; i < this.size(); i++) {
+            if (!this.get(i).equals(addressBook.get(i)))
+                return false;
         }
         return true;
+    }
+
+    /**
+     * Return the toString method of AddressBook.
+     * @return  String
+     */
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
-

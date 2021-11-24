@@ -21,7 +21,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     public static final String ADDRESS_BOOK_TAG = "addressbook";
 
     /**
-     * Add buddyInfo object to addressBook.
+     * Add BuddyInfo object to AddressBook.
      * @param aBuddy     BuddyInfo object
      */
     public void addBuddy(BuddyInfo aBuddy) {
@@ -31,7 +31,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Remove buddyInfo object from addressBook.
+     * Remove BuddyInfo object from AddressBook.
      * @ @param aBuddy     BuddyInfo object
      */
     public void removeBuddy(BuddyInfo aBuddy) {
@@ -41,7 +41,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Get the size of the address book.
+     * Get the size of the AddressBook.
      * @return  int
      */
     public int size() {
@@ -49,14 +49,14 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Clear the address book.
+     * Clear the current AddressBook.
      */
     public void clear() {
         super.clear();
     }
 
     /**
-     * Saves the address book contents to a pre-defined file name.
+     * Save the AddressBook contents to a pre-defined file name.
      */
     public void export() {
         try {
@@ -71,7 +71,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Reads a file given a file name as a parameter, and updates the address book GUI.
+     * Reads a file given a file name as a parameter, and updates the AddressBook GUI.
      * @return  AddressBook
      */
     public static AddressBook importAddressBook() {
@@ -86,7 +86,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Converts the contents of the address book into XML format.
+     * Converts the contents of the AddressBook into XML format.
      * @return  String
      */
     public String toXML() {
@@ -100,7 +100,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Export the address book XML file.
+     * Export the AddressBook XML file.
      */
     public void exportToXMLFile() {
         try {
@@ -113,7 +113,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Imports an address book from an XML file.
+     * Import an AddressBook from an XML file.
      * @return  AddressBook
      * @throws IOException                  IOException
      * @throws SAXException                 SAXException
@@ -130,13 +130,13 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
             private String currentKey;
 
             @Override
-            public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+            public void startElement(String uri, String localName, String qName, Attributes attributes) {
                 System.out.println("Start: " + qName);
                 currentKey = qName;
             }
 
             @Override
-            public void endElement(String uri, String localName, String qName) throws SAXException {
+            public void endElement(String uri, String localName, String qName) {
                 if (qName.equals(BuddyInfo.BUDDY_TAG)) {
                     String name = buddyInfoPropertyMap.getOrDefault(BuddyInfo.NAME_TAG, "");
                     String address = buddyInfoPropertyMap.getOrDefault(BuddyInfo.ADDRESS_TAG, "");
@@ -147,7 +147,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
             }
 
             @Override
-            public void characters(char[] ch, int start, int length) throws SAXException {
+            public void characters(char[] ch, int start, int length) {
                 String chars = new String(ch, start, length);
                 buddyInfoPropertyMap.put(currentKey, chars);
                 System.out.println("Chars: " + chars + " - " + currentKey);

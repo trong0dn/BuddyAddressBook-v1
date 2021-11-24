@@ -16,10 +16,10 @@ public class BuddyInfo implements Serializable {
     private static final int ADDRESS_IDX = 1;
     private static final int PHONE_IDX = 2;
 
-    public static final String BUDDY_TAG = "BuddyInfo";
+    public static final String BUDDY_TAG = "buddyinfo";
     public static final String NAME_TAG = "name";
     public static final String ADDRESS_TAG = "address";
-    public static final String PHONE_TAG = "phoneNumber";
+    public static final String PHONE_TAG = "phone";
 
     /**
      * Constructor for BuddyInfo.

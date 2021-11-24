@@ -2,7 +2,10 @@
 // STUDENT NUMBER: 100848232
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -10,63 +13,80 @@ import java.awt.event.WindowEvent;
  * This class displays a view of the AddressBook.
  * @author Trong Nguyen
  */
-public class AddressBookView extends JFrame {
-    private JList<String> buddyInfoList;
-    private final AddressBook addressBook;
+public class AddressBookView extends JFrame implements ListSelectionListener {
+    private AddressBook currentAddressBook;
+    private JMenuItem saveAddressBookMenuItem;
+    private JMenuItem addBuddyInfoMenuItem;
+    private JMenuItem editBuddyInfoMenuItem;
+    private JMenuItem removeBuddyInfoMenuItem;
+    private JList<BuddyInfo> currentBuddyInfoList;
 
-    /**
-     * Constructor for AddressBookView.
-     */
     public AddressBookView() {
-        super();
-        this.addressBook = new AddressBook();
-        init();
-    }
-
-    /**
-     * Initializes the AddressBook with some Buddies.
-     */
-    public void init() {
-        addressBook.addBuddy(new BuddyInfo("Homer", "123 Street", "555-123-4567"));
-        addressBook.addBuddy(new BuddyInfo("Marge", "321 Avenue", "555-321-7654"));
-        addressBook.addBuddy(new BuddyInfo("Bart", "456 Road", "555-654-1234"));
-        addressBook.addBuddy(new BuddyInfo("Lisa", "654 Crescent", "555-789-9876"));
-        addressBook.addBuddy(new BuddyInfo("Maggie", "789 Private", "555-987-7654"));
-
-        for (BuddyInfo b : addressBook.getMyBuddies()) {
-            addressBook.getListModel().addElement(b.toString());
-        }
+        displayGUI();
     }
 
     /**
      * Display the graphical user interface for AddressBook.
      */
-    public void displayGUI() {
+    private void displayGUI() {
         this.setTitle("MyAddressBookApp");
         this.setPreferredSize(new Dimension(500, 600));
 
+        // Create the menu bar
         JMenuBar menuBar = new JMenuBar();
+        menuBar.setMaximumSize(new Dimension(this.getPreferredSize().width, 20));
+
+        // Create AddressBook menu
         JMenu addressBookMenu = new JMenu("AddressBook");
+        JMenuItem createAddressBookMenuItem = new JMenuItem("Create");
+        saveAddressBookMenuItem = new JMenuItem("Save");
+        JMenuItem importAddressBookMenuItem = new JMenuItem("Import");
+
+        // Create BuddyInfo menu
         JMenu buddyInfoMenu = new JMenu("BuddyInfo");
+        addBuddyInfoMenuItem = new JMenuItem("Add");
+        editBuddyInfoMenuItem = new JMenuItem("Edit");
+        removeBuddyInfoMenuItem = new JMenuItem("Remove");
 
-        addressBookMenu.add(createMenuItem());
-        addressBookMenu.add(saveTxtMenuItem());
-        addressBookMenu.add(importTxtMenuItem());
-        addressBookMenu.add(saveXMLMenuItem());
-        addressBookMenu.add(importXMLMenuItem());
-        buddyInfoMenu.add(addMenuItem());
-        buddyInfoMenu.add(removeMenuItem());
-        buddyInfoMenu.add(editMenuItem());
+        // ActionListeners for menu items
+        createAddressBookMenuItem.addActionListener(this::createAddressBook);
+        saveAddressBookMenuItem.addActionListener(this::saveAddressBook);
+        importAddressBookMenuItem.addActionListener(this::importAddressBook);
+        addBuddyInfoMenuItem.addActionListener(this::addBuddyInfo);
+        editBuddyInfoMenuItem.addActionListener(this::editBuddyInfo);
+        removeBuddyInfoMenuItem.addActionListener(this::removeBuddyInfo);
 
+        // Add AddressBook menu items
+        addressBookMenu.add(createAddressBookMenuItem);
+        addressBookMenu.add(saveAddressBookMenuItem);
+        addressBookMenu.add(importAddressBookMenuItem);
+
+        // Add BuddyInfo menu items
+        buddyInfoMenu.add(addBuddyInfoMenuItem);
+        buddyInfoMenu.add(editBuddyInfoMenuItem);
+        buddyInfoMenu.add(removeBuddyInfoMenuItem);
+
+        // Add menus to the menu bar
         menuBar.add(addressBookMenu);
         menuBar.add(buddyInfoMenu);
 
-        this.buddyInfoList = new JList<>(addressBook.getListModel());
-        this.buddyInfoList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.add(buddyInfoList);
-        this.setJMenuBar(menuBar);
-        this.pack();
+        // Disable some menu items
+        saveAddressBookMenuItem.setEnabled(false);
+        addBuddyInfoMenuItem.setEnabled(false);
+        editBuddyInfoMenuItem.setEnabled(false);
+        removeBuddyInfoMenuItem.setEnabled(false);
 
+        // Set up JList
+        currentBuddyInfoList = new JList<>();
+        currentBuddyInfoList.addListSelectionListener(this);
+        currentBuddyInfoList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Add to main frame
+        this.setJMenuBar(menuBar);
+        this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        this.getContentPane().add(currentBuddyInfoList);
+
+        this.pack();
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -82,67 +102,57 @@ public class AddressBookView extends JFrame {
     }
 
     /**
-     * Create the menu item for Add a buddy.
-     * @return  JMenuItem
+     * Set the current AddressBook upon creating new AddressBook.
+     * @param addressBook   AddressBook
      */
-    private JMenuItem addMenuItem() {
-        JMenuItem addMenuItem = new JMenuItem("Add");
-        addMenuItem.addActionListener(e -> {
-            JPanel panel = new JPanel(new GridLayout(3, 2));
-            JLabel labelName = new JLabel("Enter new Buddy Name:");
-            JLabel labelAddress = new JLabel("Enter new Buddy Address:");
-            JLabel labelPhoneNumber = new JLabel("Enter new Buddy Phone Number:");
-            JTextField fieldName = new JTextField();
-            JTextField fieldAddress = new JTextField();
-            JTextField fieldPhoneNumber = new JTextField();
-            panel.add(labelName); panel.add(fieldName);
-            panel.add(labelAddress); panel.add(fieldAddress);
-            panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
-            JOptionPane.showMessageDialog(this, panel, "Add a new Buddy", JOptionPane.INFORMATION_MESSAGE);
-            BuddyInfo newBuddy = new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
-            this.addressBook.addBuddy(newBuddy);
-            this.addressBook.getListModel().addElement(newBuddy.toString());
-        });
-        return addMenuItem;
+    private void setCurrentAddressBook(AddressBook addressBook) {
+        this.currentAddressBook = addressBook;
+        currentBuddyInfoList.setModel(currentAddressBook);
+        saveAddressBookMenuItem.setEnabled(true);
+        addBuddyInfoMenuItem.setEnabled(true);
     }
 
     /**
-     * Create the menu item for Remove a buddy.
-     * @return  JMenuItem
+     * Add a new BuddyInfo.
+     * @param actionEvent ActionEvent
      */
-    private JMenuItem removeMenuItem() {
-        JMenuItem removeMenuItem = new JMenuItem("Remove");
-        removeMenuItem.addActionListener(e -> {
-            int index = buddyInfoList.getSelectedIndex();
-            if (index != -1) {
-                this.addressBook.removeBuddy(index);
-                this.addressBook.getListModel().remove(index);
-            } else {
-                JOptionPane.showMessageDialog(this, "Select a Buddy to remove");
-            }
-        });
-        return removeMenuItem;
+    private void addBuddyInfo(ActionEvent actionEvent) {
+        JPanel panel = new JPanel(new GridLayout(3, 2));
+        JLabel labelName = new JLabel("Enter new Buddy Name:");
+        JLabel labelAddress = new JLabel("Enter new Buddy Address:");
+        JLabel labelPhoneNumber = new JLabel("Enter new Buddy Phone Number:");
+        JTextField fieldName = new JTextField();
+        JTextField fieldAddress = new JTextField();
+        JTextField fieldPhoneNumber = new JTextField();
+        panel.add(labelName); panel.add(fieldName);
+        panel.add(labelAddress); panel.add(fieldAddress);
+        panel.add(labelPhoneNumber); panel.add(fieldPhoneNumber);
+        JOptionPane.showMessageDialog(this, panel, "Add a new Buddy", JOptionPane.INFORMATION_MESSAGE);
+        BuddyInfo newBuddy = new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
+        currentAddressBook.addBuddy(newBuddy);
     }
 
     /**
-     * Create the menu item for Edit a buddy.
-     * @return  JMenuItem
+     * Remove the selected BuddyInfo.
+     * @param actionEvent ActionEvent
      */
-    private JMenuItem editMenuItem() {
-        JMenuItem editMenuItem = new JMenuItem("Edit");
-        editMenuItem.addActionListener(e -> {
-            int index = buddyInfoList.getSelectedIndex();
-            BuddyInfo selectedBuddy = addressBook.getBuddy(index);
-            if (selectedBuddy == null) {
-                return;
-            }
-            BuddyInfo editedBuddy = updateBuddyInfo(selectedBuddy.getName(), selectedBuddy.getAddress(), selectedBuddy.getPhoneNumber());
-            selectedBuddy.setName(editedBuddy.getName());
-            selectedBuddy.setAddress(editedBuddy.getAddress());
-            selectedBuddy.setPhoneNumber(editedBuddy.getPhoneNumber());
-            this.addressBook.getListModel().set(index, selectedBuddy.toString());
-        });
-        return editMenuItem;
+    private void removeBuddyInfo(ActionEvent actionEvent) {
+        int selectedBuddyIndex = currentBuddyInfoList.getSelectedIndex();
+        currentAddressBook.remove(selectedBuddyIndex);
+    }
+
+    /**
+     * Edit the selected BuddyInfo.
+     * @param actionEvent   ActionEvent
+     */
+    private void editBuddyInfo(ActionEvent actionEvent) {
+        int selectedBuddyIndex = currentBuddyInfoList.getSelectedIndex();
+        BuddyInfo selectedBuddy = currentAddressBook.get(selectedBuddyIndex);
+        BuddyInfo editedBuddy = updateBuddyInfo(selectedBuddy.getName(), selectedBuddy.getAddress(), selectedBuddy.getPhoneNumber());
+
+        selectedBuddy.setName(editedBuddy.getName());
+        selectedBuddy.setAddress(editedBuddy.getAddress());
+        selectedBuddy.setPhoneNumber(editedBuddy.getPhoneNumber());
     }
 
     /**
@@ -167,89 +177,53 @@ public class AddressBookView extends JFrame {
         return new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
     }
 
+
     /**
-     * Create the menu item for Create a new address book.
-     * @return  JMenuItem
+     * Create a new AddressBook.
+     * @param actionEvent   ActionEvent
      */
-    private JMenuItem createMenuItem() {
-        JMenuItem createMenuItem = new JMenuItem("Create");
-        createMenuItem.addActionListener(e -> {
-            this.addressBook.getListModel().clear();
-            this.addressBook.clear();
-        });
-        return createMenuItem;
+    private void createAddressBook(ActionEvent actionEvent) {
+        setCurrentAddressBook(new AddressBook());
     }
 
     /**
-     * Create the menu item for Save address book.
-     * Saves a txt file.
-     * @return  JMenuItem
+     * Save the current AddressBook.
+     * @param actionEvent   ActionEvent
      */
-    private JMenuItem saveTxtMenuItem() {
-        JMenuItem saveMenuItem = new JMenuItem("Save TXT");
-        saveMenuItem.addActionListener(e -> {
-            String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to save:");
-            if (addressBook.save(filename + ".txt")) {
-                JOptionPane.showMessageDialog(this, "Save Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Saving Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        return saveMenuItem;
+    private void saveAddressBook(ActionEvent actionEvent) {
+        if (currentAddressBook == null)
+            return;
+        currentAddressBook.export();
+        JOptionPane.showMessageDialog(this, "Address Book has been saved to file: " + AddressBook.ADDRESS_BOOK_TXT_FILE);
     }
 
     /**
-     * Create the import menu item for Import address book.
-     * Import txt file.
-     * @return  JMenuItem
+     * Import a previous saved AddressBook.
+     * @param actionEvent   ActionEvent
      */
-    private JMenuItem importTxtMenuItem() {
-        JMenuItem importMenuItem = new JMenuItem("Import TXT");
-        importMenuItem.addActionListener(e -> {
-            String filename = JOptionPane.showInputDialog(this,"Enter name of .txt file to import:");
-            if (addressBook.readTxtImport(filename + ".txt")) {
-                JOptionPane.showMessageDialog(this, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        return importMenuItem;
+    private void importAddressBook(ActionEvent actionEvent) {
+        setCurrentAddressBook(AddressBook.importAddressBook());
     }
 
     /**
-     * Create the menu item for Save address book.
-     * Saves an XML file.
-     * @return  JMenuItem
+     * Override method inherited from ListSelectionListener
+     * @param e ListSelectionEvent
      */
-    private JMenuItem saveXMLMenuItem() {
-        JMenuItem saveMenuItem = new JMenuItem("Save XML");
-        saveMenuItem.addActionListener(e -> {
-            String filename = JOptionPane.showInputDialog(this,"Enter name of .xml file to save:");
-            if (addressBook.exportToXmlFile(filename + ".xml")) {
-                JOptionPane.showMessageDialog(this, "Save Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Saving Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        return saveMenuItem;
-    }
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting())
+            return;
 
-    /**
-     * Create the import menu item for Import address book.
-     * Import XML file.
-     * @return  JMenuItem
-     */
-    private JMenuItem importXMLMenuItem() {
-        JMenuItem importMenuItem = new JMenuItem("Import XML");
-        importMenuItem.addActionListener(e -> {
-            String filename = JOptionPane.showInputDialog(this,"Enter name of .xml file to import:");
-            if (addressBook.importFromXmlFile(filename + ".xml")) {
-                JOptionPane.showMessageDialog(this, "Import Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Import Failed", "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        return importMenuItem;
+        int selectedIndex = currentBuddyInfoList.getSelectedIndex();
+
+        // If a buddy info gets removed (or de-selected), then disable the edit/remove buttons.
+        if (selectedIndex == -1) {
+            editBuddyInfoMenuItem.setEnabled(false);
+            removeBuddyInfoMenuItem.setEnabled(false);
+        } else {
+            editBuddyInfoMenuItem.setEnabled(true);
+            removeBuddyInfoMenuItem.setEnabled(true);
+        }
     }
 
     /**
@@ -257,7 +231,6 @@ public class AddressBookView extends JFrame {
      * @param args     String[]
      */
     public static void main(String[] args) {
-        AddressBookView view = new AddressBookView();
-        view.displayGUI();
+        new AddressBookView();
     }
 }

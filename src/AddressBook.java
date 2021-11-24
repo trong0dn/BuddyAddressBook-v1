@@ -2,14 +2,11 @@
 // STUDENT NUMBER: 100848232
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.swing.*;
 import javax.xml.parsers.*;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class maintains the collection of the BuddyInfo object.
@@ -115,46 +112,67 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     /**
      * Import an AddressBook from an XML file.
      * @return  AddressBook
-     * @throws IOException                  IOException
-     * @throws SAXException                 SAXException
-     * @throws ParserConfigurationException ParserConfigurationException
      */
-    public static AddressBook importFromXMLFile() throws IOException, SAXException, ParserConfigurationException {
-        File addressBookFile = new File(ADDRESS_BOOK_XML_FILE);
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        SAXParser s = spf.newSAXParser();
-        AddressBook currentAddressBook = new AddressBook();
+    public static AddressBook importFromXMLFile() {
+        AddressBook currentAddressBook;
+        try {
+            File file = new File(ADDRESS_BOOK_XML_FILE);
+            currentAddressBook = readSAX(file);
+            return currentAddressBook;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-        DefaultHandler dh = new DefaultHandler() {
-            private final Map<String, String> buddyInfoPropertyMap = new HashMap<>();
-            private String currentKey;
+    /**
+     * Defined SAX reader to handle the parsing of XML.
+     * @param f File
+     * @return  AddressBook
+     */
+    public static AddressBook readSAX(File f) {
+        AddressBook addressBook = new AddressBook();
+        try {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            SAXParser s = spf.newSAXParser();
 
-            @Override
-            public void startElement(String uri, String localName, String qName, Attributes attributes) {
-                System.out.println("Start: " + qName);
-                currentKey = qName;
-            }
+            DefaultHandler dh = new DefaultHandler() {
+                BuddyInfo buddy;
+                String elementValue;
 
-            @Override
-            public void endElement(String uri, String localName, String qName) {
-                if (qName.equals(BuddyInfo.BUDDY_TAG)) {
-                    String name = buddyInfoPropertyMap.getOrDefault(BuddyInfo.NAME_TAG, "");
-                    String address = buddyInfoPropertyMap.getOrDefault(BuddyInfo.ADDRESS_TAG, "");
-                    String phone = buddyInfoPropertyMap.getOrDefault(BuddyInfo.PHONE_TAG, "");
-                    currentAddressBook.addBuddy(new BuddyInfo(name, address, phone));
+                @Override
+                public void startElement(String uri, String localName, String qName, Attributes attributes) {
+                    if (qName.equalsIgnoreCase(BuddyInfo.BUDDY_TAG)) {
+                        buddy = new BuddyInfo();
+                    }
                 }
-                System.out.println("end: " + qName);
-            }
 
-            @Override
-            public void characters(char[] ch, int start, int length) {
-                String chars = new String(ch, start, length);
-                buddyInfoPropertyMap.put(currentKey, chars);
-                System.out.println("Chars: " + chars + " - " + currentKey);
-            }
-        };
-        s.parse(addressBookFile, dh);
-        return currentAddressBook;
+                @Override
+                public void endElement(String uri, String localName, String qName) {
+                    if (qName.equalsIgnoreCase(BuddyInfo.BUDDY_TAG)) {
+                        addressBook.addBuddy(buddy);
+                    }
+                    if (qName.equalsIgnoreCase(BuddyInfo.NAME_TAG)) {
+                        buddy.setName(elementValue);
+                    }
+                    if (qName.equalsIgnoreCase(BuddyInfo.ADDRESS_TAG)) {
+                        buddy.setAddress(elementValue);
+                    }
+                    if (qName.equalsIgnoreCase(BuddyInfo.PHONE_TAG)) {
+                        buddy.setPhoneNumber(elementValue);
+                    }
+                }
+
+                @Override
+                public void characters(char[] ch, int start, int length) {
+                    elementValue = new String(ch, start, length);
+                }
+            };
+            s.parse(f, dh);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return addressBook;
     }
 
     /**
@@ -166,13 +184,10 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     public boolean equals(Object obj) {
         if (obj == this)
             return true;
-
         if (!(obj instanceof AddressBook addressBook))
             return false;
-
         if (this.size() != addressBook.size())
             return false;
-
         for (int i = 0; i < this.size(); i++) {
             if (!this.get(i).equals(addressBook.get(i)))
                 return false;

@@ -34,6 +34,13 @@ public class BuddyInfo implements Serializable {
     }
 
     /**
+     * Empty constructor for BuddyInfo.
+     */
+    public BuddyInfo() {
+        this("", "", "");
+    }
+
+    /**
      * Get the buddy's name.
      * @return      String, buddy's name
      */

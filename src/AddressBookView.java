@@ -21,6 +21,9 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
     private JMenuItem removeBuddyInfoMenuItem;
     private JList<BuddyInfo> currentBuddyInfoList;
 
+    /**
+     * Constructor for AddressBookView.
+     */
     public AddressBookView() {
         displayGUI();
     }
@@ -34,7 +37,6 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
 
         // Create the menu bar
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setMaximumSize(new Dimension(this.getPreferredSize().width, 20));
 
         // Create AddressBook menu
         JMenu addressBookMenu = new JMenu("AddressBook");
@@ -138,7 +140,8 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
      */
     private void removeBuddyInfo(ActionEvent actionEvent) {
         int selectedBuddyIndex = currentBuddyInfoList.getSelectedIndex();
-        currentAddressBook.remove(selectedBuddyIndex);
+        BuddyInfo buddyInfo = currentAddressBook.getElementAt(selectedBuddyIndex);
+        currentAddressBook.removeBuddy(buddyInfo);
     }
 
     /**
@@ -177,7 +180,6 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
         return new BuddyInfo(fieldName.getText(), fieldAddress.getText(), fieldPhoneNumber.getText());
     }
 
-
     /**
      * Create a new AddressBook.
      * @param actionEvent   ActionEvent
@@ -194,7 +196,7 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
         if (currentAddressBook == null)
             return;
         currentAddressBook.export();
-        JOptionPane.showMessageDialog(this, "Address Book has been saved to file: " + AddressBook.ADDRESS_BOOK_TXT_FILE);
+        JOptionPane.showMessageDialog(this, "Address Book has been saved to file");
     }
 
     /**
@@ -202,7 +204,7 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
      * @param actionEvent   ActionEvent
      */
     private void importAddressBook(ActionEvent actionEvent) {
-        setCurrentAddressBook(AddressBook.importAddressBook());
+        setCurrentAddressBook(AddressBook.importFromXMLFile());
     }
 
     /**

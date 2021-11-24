@@ -53,7 +53,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Save the AddressBook contents to a pre-defined file name.
+     * Save the AddressBook contents to a pre-defined .txt file.
      */
     public void export() {
         try {
@@ -68,7 +68,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Reads a file given a file name as a parameter, and updates the AddressBook GUI.
+     * Import the AddressBook contents of a .txt file.
      * @return  AddressBook
      */
     public static AddressBook importAddressBook() {

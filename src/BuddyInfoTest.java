@@ -16,8 +16,7 @@ public class BuddyInfoTest {
     }
 
     @Test
-    public void testToXML()
-    {
+    public void testToXML() {
         String xmlString = testBuddyInfo.toXML();
         assertTrue("Must contain BuddyInfo opening tag", xmlString.contains("<" + BuddyInfo.BUDDY_TAG + ">" ));
         assertTrue("Must contain BuddyInfo closing tag", xmlString.contains("</" + BuddyInfo.BUDDY_TAG + ">" ));

@@ -12,14 +12,22 @@ import java.awt.event.WindowEvent;
  */
 public class AddressBookView extends JFrame {
     private JList<String> buddyInfoList;
-    private final AddressBook addressBook;
+    private AddressBook addressBook;
 
     /**
      * Constructor for AddressBookView.
      */
     public AddressBookView() {
         super();
-        this.addressBook = new AddressBook();
+        setAddressBook(new AddressBook());
+    }
+
+    /**
+     * Set Address Book.
+     * @param addressBook   AddressBook
+     */
+    public void setAddressBook(AddressBook addressBook) {
+        this.addressBook = addressBook;
     }
 
     /**
@@ -158,6 +166,7 @@ public class AddressBookView extends JFrame {
         createMenuItem.addActionListener(e -> {
             addressBook.getListModel().clear();
             buddyInfoList.removeAll();
+            setAddressBook(new AddressBook());
         });
         return createMenuItem;
     }

@@ -58,10 +58,6 @@ public class AddressBook extends DefaultListModel<String> implements Serializabl
         }
     }
 
-    public void clear() {
-        super.clear();
-    }
-
     /**
      * Get a BuddyInfo object from an index.
      * @param index int

@@ -196,7 +196,7 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
         if (currentAddressBook == null) {
             return;
         }
-        currentAddressBook.export();
+        currentAddressBook.save();
         JOptionPane.showMessageDialog(this, "Address Book has been saved to file");
     }
 

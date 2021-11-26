@@ -55,7 +55,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     /**
      * Save the AddressBook contents to a pre-defined .txt file.
      */
-    public void export() {
+    public void save() {
         try {
             this.exportToXMLFile();
             FileOutputStream fileOutputStream = new FileOutputStream(ADDRESS_BOOK_TXT_FILE);

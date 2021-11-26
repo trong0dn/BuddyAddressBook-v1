@@ -90,8 +90,6 @@ public class AddressBookTest {
         FileInputStream fis = new FileInputStream(txtFile);
         ObjectInputStream ois = new ObjectInputStream(fis);
         AddressBook addressBook = (AddressBook) ois.readObject();
-        System.out.println(addressBook.toString());
-        System.out.println(threeBuddyAddressBook.toString());
         assertEquals(threeBuddyAddressBook.toString(), addressBook.toString());
     }
 

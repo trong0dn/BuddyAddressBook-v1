@@ -53,11 +53,18 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
     }
 
     /**
-     * Save the AddressBook contents to a pre-defined .txt file.
+     * Save the AddressBook contents to a pre-defined .txt and .xml file.
      */
     public void save() {
-        try {
-            this.exportToXMLFile();
+        this.exportToXMLFile();
+        this.exportToTXTFile();
+    }
+
+    /**
+     * Export the AddressBook to TXT file.
+     */
+    public void exportToTXTFile() {
+        try{
             FileOutputStream fileOutputStream = new FileOutputStream(ADDRESS_BOOK_TXT_FILE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(this);
@@ -131,6 +138,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
      * @return  AddressBook
      */
     public static AddressBook readSAX(File f) {
+        // Reference source: https://initialcommit.com/blog/how-to-read-xml-using-sax-parser
         AddressBook addressBook = new AddressBook();
         try {
             SAXParserFactory spf = SAXParserFactory.newInstance();

@@ -82,7 +82,22 @@ public class AddressBookTest {
     }
 
     @Test
+    public void testTXTImportSerializable() throws IOException, ClassNotFoundException {
+        threeBuddyAddressBook.exportToTXTFile();
+        File txtFile = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
+
+        // Compare input stream to TXT
+        FileInputStream fis = new FileInputStream(txtFile);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        AddressBook addressBook = (AddressBook) ois.readObject();
+        System.out.println(addressBook.toString());
+        System.out.println(threeBuddyAddressBook.toString());
+        assertEquals(threeBuddyAddressBook.toString(), addressBook.toString());
+    }
+
+    @Test
     public void testXMLImportSerializable() throws IOException {
+        // Reference source: https://mkyong.com/java/how-to-convert-file-into-an-array-of-bytes/
         threeBuddyAddressBook.exportToXMLFile();
         File xmlFile = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
 
@@ -100,30 +115,58 @@ public class AddressBookTest {
     }
 
     @Test
-    public void testEmptyExportAndImport() {
+    public void testTXTEmptyExportAndImport() {
         emptyAddressBook.save();
         AddressBook importedBook = AddressBook.importFromTXTFile();
         assertEquals(emptyAddressBook, importedBook);
     }
 
     @Test
-    public void testOneExportAndImport() {
+    public void testTXTOneExportAndImport() {
         oneBuddyAddressBook.save();
         AddressBook importedBook = AddressBook.importFromTXTFile();
         assertEquals(oneBuddyAddressBook, importedBook);
     }
 
     @Test
-    public void testTwoExportAndImport() {
+    public void testTXTTwoExportAndImport() {
         twoBuddyAddressBook.save();
         AddressBook importedBook = AddressBook.importFromTXTFile();
         assertEquals(twoBuddyAddressBook, importedBook);
     }
 
     @Test
-    public void testThreeExportAndImport() {
+    public void testTXTThreeExportAndImport() {
         threeBuddyAddressBook.save();
         AddressBook importedBook = AddressBook.importFromTXTFile();
+        assertEquals(threeBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testXMLEmptyExportAndImport() {
+        emptyAddressBook.save();
+        AddressBook importedBook = AddressBook.importFromXMLFile();
+        assertEquals(emptyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testXMLOneExportAndImport() {
+        oneBuddyAddressBook.save();
+        AddressBook importedBook = AddressBook.importFromXMLFile();
+        assertEquals(oneBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testXMLTwoExportAndImport() {
+        twoBuddyAddressBook.save();
+        AddressBook importedBook = AddressBook.importFromXMLFile();
+        assertEquals(twoBuddyAddressBook, importedBook);
+    }
+
+    @Test
+    public void testXMLThreeExportAndImport() {
+        threeBuddyAddressBook.save();
+        AddressBook importedBook = AddressBook.importFromXMLFile();
         assertEquals(threeBuddyAddressBook, importedBook);
     }
 

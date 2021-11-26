@@ -119,9 +119,9 @@ public class BuddyInfo implements Serializable {
     }
 
     /**
-     * BuddyInfo that takes a string parameter of the form: "Mr. Buddy#111 Fake Street#613-555-5555"
+     * Create a BuddyInfo that from a string parameter of the form: "Mr. Buddy#111 Fake Street#613-555-5555"
      * @param addressLine   String
-     * @return  BuddyInfo object
+     * @return  BuddyInfo
      */
     static BuddyInfo stringImport(String addressLine) {
         String[] tokens = addressLine.split("#");

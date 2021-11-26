@@ -8,7 +8,7 @@ public class BuddyInfoTest {
     private static final String BUDDY_NAME = "name";
     private static final String BUDDY_ADDRESS = "address";
     private static final String BUDDY_PHONE = "phone";
-    private BuddyInfo testBuddyInfo = null;
+    private BuddyInfo testBuddyInfo;
 
     @Before
     public void setUp() {
@@ -61,7 +61,7 @@ public class BuddyInfoTest {
     @Test
     public void testSetAddress() {
         assertEquals("Buddy address must already be set", testBuddyInfo.getAddress(), BUDDY_ADDRESS);
-        String newAddress = "tester_new";
+        String newAddress = "Tester";
         testBuddyInfo.setName(newAddress);
         assertEquals("Buddy address must be set to new address", testBuddyInfo.getName(), newAddress);
     }

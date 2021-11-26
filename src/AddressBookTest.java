@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,13 +33,6 @@ public class AddressBookTest {
         threeBuddyAddressBook.addBuddy(firstBuddy);
         threeBuddyAddressBook.addBuddy(secondBuddy);
         threeBuddyAddressBook.addBuddy(thirdBuddy);
-
-        // Clear existing serializations
-        File file = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
-        file.deleteOnExit();
-
-        file = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
-        file.deleteOnExit();
     }
 
     @Test
@@ -145,5 +139,15 @@ public class AddressBookTest {
         assertEquals(oneBuddyAddressBook.size(), 0);
         assertEquals(twoBuddyAddressBook.size(), 0);
         assertEquals(threeBuddyAddressBook.size(), 0);
+    }
+
+    @After
+    public void tearDown() {
+        // Clear existing serializations
+        File file = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
+        file.deleteOnExit();
+
+        file = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
+        file.deleteOnExit();
     }
 }

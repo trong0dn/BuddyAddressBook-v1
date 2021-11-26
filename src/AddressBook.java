@@ -71,7 +71,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
      * Import the AddressBook contents of a .txt file.
      * @return  AddressBook
      */
-    public static AddressBook importAddressBook() {
+    public static AddressBook importFromTXTFile() {
         try {
             FileInputStream fileInputStream = new FileInputStream(ADDRESS_BOOK_TXT_FILE);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);

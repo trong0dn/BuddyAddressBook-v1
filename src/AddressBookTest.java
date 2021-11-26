@@ -102,28 +102,28 @@ public class AddressBookTest {
     @Test
     public void testEmptyExportAndImport() {
         emptyAddressBook.save();
-        AddressBook importedBook = AddressBook.importAddressBook();
+        AddressBook importedBook = AddressBook.importFromTXTFile();
         assertEquals(emptyAddressBook, importedBook);
     }
 
     @Test
     public void testOneExportAndImport() {
         oneBuddyAddressBook.save();
-        AddressBook importedBook = AddressBook.importAddressBook();
+        AddressBook importedBook = AddressBook.importFromTXTFile();
         assertEquals(oneBuddyAddressBook, importedBook);
     }
 
     @Test
     public void testTwoExportAndImport() {
         twoBuddyAddressBook.save();
-        AddressBook importedBook = AddressBook.importAddressBook();
+        AddressBook importedBook = AddressBook.importFromTXTFile();
         assertEquals(twoBuddyAddressBook, importedBook);
     }
 
     @Test
     public void testThreeExportAndImport() {
         threeBuddyAddressBook.save();
-        AddressBook importedBook = AddressBook.importAddressBook();
+        AddressBook importedBook = AddressBook.importFromTXTFile();
         assertEquals(threeBuddyAddressBook, importedBook);
     }
 

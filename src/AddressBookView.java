@@ -33,7 +33,7 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
      */
     private void displayGUI() {
         this.setTitle("MyAddressBookApp");
-        this.setPreferredSize(new Dimension(500, 600));
+        this.setPreferredSize(new Dimension(300, 300));
 
         // Create the menu bar
         JMenuBar menuBar = new JMenuBar();
@@ -205,7 +205,7 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
      * @param actionEvent   ActionEvent
      */
     private void importAddressBook(ActionEvent actionEvent) {
-        setCurrentAddressBook(AddressBook.importFromXMLFile());
+        setCurrentAddressBook(AddressBook.importFromTXTFile());
     }
 
     /**

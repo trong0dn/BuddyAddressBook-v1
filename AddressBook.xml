@@ -14,6 +14,11 @@
 		<phone>555-654-1234</phone>
 	</buddyinfo>
 	<buddyinfo>
+		<name>Lisa</name>
+		<address>456 Crescent</address>
+		<phone>555-789-4321</phone>
+	</buddyinfo>
+	<buddyinfo>
 		<name>Maggie</name>
 		<address>789 Private</address>
 		<phone>555-987-7654</phone>

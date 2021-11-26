@@ -17,7 +17,6 @@ public class AddressBookTest {
     private final BuddyInfo secondBuddy = new BuddyInfo("Buddy2", "Address2", "Phone2");
     private final BuddyInfo thirdBuddy = new BuddyInfo("Buddy3", "Address3", "Phone3");
 
-
     @Before
     public void setUp() {
         emptyAddressBook = new AddressBook();

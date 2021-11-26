@@ -82,7 +82,7 @@ public class AddressBookTest {
     }
 
     @Test
-    public void testXMLExport() throws IOException {
+    public void testXMLImportSerializable() throws IOException {
         threeBuddyAddressBook.exportToXMLFile();
         File xmlFile = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
 
@@ -143,10 +143,14 @@ public class AddressBookTest {
     @After
     public void tearDown() {
         // Clear existing serializations
-        File file = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
-        file.deleteOnExit();
+        File txtfile = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
+        if (!txtfile.delete()) {
+            txtfile.deleteOnExit();
+        }
 
-        file = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
-        file.deleteOnExit();
+        File xmLfile = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
+        if (!xmLfile.delete()) {
+            xmLfile.deleteOnExit();
+        }
     }
 }

@@ -139,7 +139,7 @@ public class BuddyInfo implements Serializable {
     }
 
     /**
-     * Convert AddressBook elements to XML format.
+     * Create BuddyInfo elements to XML format.
      * @return  String
      */
     public String toXML() {

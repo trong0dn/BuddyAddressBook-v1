@@ -13,7 +13,7 @@
 
     <target name="compile" depends="" description="Compiles the java source files">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" excludes="*Test.java"/>
+        <javac srcdir="${src.dir}/main" destdir="${classes.dir}" includeantruntime="false" excludes="*Test.java"/>
     </target>
 
     <target name="jar" depends="compile" description="Creates a jar file containing source code">
@@ -26,7 +26,9 @@
         </jar>
     </target>
 
-    <target name="packaging" depends="jar" description="Executes the jar file application">
+    <target name="packaging" depends="jar" description="Package the contents of the jar file"/>
+
+    <target name="run" depends="jar" description="Executes the jar file application">
         <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
     </target>
 

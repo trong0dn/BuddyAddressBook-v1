@@ -3,8 +3,10 @@
 
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="jar.dir" value="${build.dir}/jar"/>
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="build.jar.dir" value="${build.dir}/jar"/>
+    <property name="build.test.dir" value="${build.dir}/test"/>
+    <property name="build.src.dir" value="${build.dir}/src"/>
     <property name="main-class" value="AddressBookView"/>
 
     <target name="clean">
@@ -12,13 +14,13 @@
     </target>
 
     <target name="compile" depends="" description="Compiles the java source files">
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}/main" destdir="${classes.dir}" includeantruntime="false" excludes="*Test.java"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${src.dir}/main" destdir="${build.classes.dir}" includeantruntime="false" excludes="*Test.java"/>
     </target>
 
     <target name="jar" depends="compile" description="Creates a jar file containing source code">
-        <mkdir dir="${jar.dir}"/>
-        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+        <mkdir dir="${build.jar.dir}"/>
+        <jar destfile="${build.jar.dir}/${ant.project.name}.jar" basedir="${build.classes.dir}">
             <fileset dir="${src.dir}" includes="**/*.java"/>
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
@@ -26,10 +28,26 @@
         </jar>
     </target>
 
+    <target name="test" depends="" description="Copy test files to build">
+        <mkdir dir="${build.test.dir}"/>
+        <copy todir="${build.test.dir}">
+            <fileset dir="${src.dir}/test/java"/>
+        </copy>
+    </target>
+
+    <target name="src" depends="" description="Copy source file to build">
+        <mkdir dir="${build.src.dir}"/>
+        <copy todir="${build.src.dir}">
+            <fileset dir="${src.dir}/main/java"/>
+        </copy>
+    </target>
+
     <target name="packaging" depends="jar" description="Package the contents of the jar file"/>
 
+    <target name="build" depends="compile, jar, src, test" description="Create complete build file"/>
+
     <target name="run" depends="jar" description="Executes the jar file application">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+        <java jar="${build.jar.dir}/${ant.project.name}.jar" fork="true"/>
     </target>
 
 </project>

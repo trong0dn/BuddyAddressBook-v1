@@ -69,6 +69,7 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(this);
             objectOutputStream.close();
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,10 +80,14 @@ public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializ
      * @return  AddressBook
      */
     public static AddressBook importFromTXTFile() {
+        AddressBook addressBook;
         try {
             FileInputStream fileInputStream = new FileInputStream(ADDRESS_BOOK_TXT_FILE);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            return (AddressBook) objectInputStream.readObject();
+            addressBook = (AddressBook) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+            return addressBook;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

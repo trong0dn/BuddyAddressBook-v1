@@ -32,6 +32,17 @@ public class AddressBookTest {
         threeBuddyAddressBook.addBuddy(firstBuddy);
         threeBuddyAddressBook.addBuddy(secondBuddy);
         threeBuddyAddressBook.addBuddy(thirdBuddy);
+
+        // Clear existing serializations
+        File txtFile = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
+        if (!txtFile.delete()) {
+            txtFile.deleteOnExit();
+        }
+
+        File xmLFile = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
+        if (!xmLFile.delete()) {
+            xmLFile.deleteOnExit();
+        }
     }
 
     @Test
@@ -90,6 +101,8 @@ public class AddressBookTest {
         FileInputStream fis = new FileInputStream(txtFile);
         ObjectInputStream ois = new ObjectInputStream(fis);
         AddressBook addressBook = (AddressBook) ois.readObject();
+        ois.close();
+        fis.close();
         assertEquals(threeBuddyAddressBook.toString(), addressBook.toString());
     }
 
@@ -184,14 +197,14 @@ public class AddressBookTest {
     @After
     public void tearDown() {
         // Clear existing serializations
-        File txtfile = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
-        if (!txtfile.delete()) {
-            txtfile.deleteOnExit();
+        File txtFile = new File(AddressBook.ADDRESS_BOOK_TXT_FILE);
+        if (!txtFile.delete()) {
+            txtFile.deleteOnExit();
         }
 
-        File xmLfile = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
-        if (!xmLfile.delete()) {
-            xmLfile.deleteOnExit();
+        File xmLFile = new File(AddressBook.ADDRESS_BOOK_XML_FILE);
+        if (!xmLFile.delete()) {
+            xmLFile.deleteOnExit();
         }
     }
 }

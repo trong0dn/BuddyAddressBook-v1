@@ -205,7 +205,7 @@ public class AddressBookView extends JFrame implements ListSelectionListener {
      * @param actionEvent   ActionEvent
      */
     private void importAddressBook(ActionEvent actionEvent) {
-        setCurrentAddressBook(AddressBook.importFromTXTFile());
+        setCurrentAddressBook(AddressBook.importFromXMLFile());
     }
 
     /**

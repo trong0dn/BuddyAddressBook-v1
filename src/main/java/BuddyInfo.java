@@ -1,11 +1,8 @@
-// STUDENT NAME: Trong Nguyen
-// STUDENT NUMBER: 100848232
-
 import java.io.Serializable;
 
 /**
  * This class contains information about a buddy.
- * @author Trong Nguyen
+ * @author Trong
  */
 public class BuddyInfo implements Serializable {
     private String name;

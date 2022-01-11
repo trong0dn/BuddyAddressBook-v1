@@ -1,6 +1,3 @@
-// STUDENT NAME: Trong Nguyen
-// STUDENT NUMBER: 100848232
-
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -10,7 +7,7 @@ import java.io.*;
 
 /**
  * This class maintains the collection of the BuddyInfo object.
- * @author Trong Nguyen
+ * @author Trong
  */
 public class AddressBook extends DefaultListModel<BuddyInfo> implements Serializable {
     public static final String ADDRESS_BOOK_TXT_FILE = "AddressBook.txt";

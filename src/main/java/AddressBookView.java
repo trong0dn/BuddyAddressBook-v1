@@ -1,6 +1,3 @@
-// STUDENT NAME: Trong Nguyen
-// STUDENT NUMBER: 100848232
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -11,7 +8,7 @@ import java.awt.event.WindowEvent;
 
 /**
  * This class displays a view of the AddressBook.
- * @author Trong Nguyen
+ * @author Trong
  */
 public class AddressBookView extends JFrame implements ListSelectionListener {
     private AddressBook currentAddressBook;

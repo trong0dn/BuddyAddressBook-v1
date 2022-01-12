@@ -1,6 +1,6 @@
 # BuddyAddressBook
 An address book project used to explore some of the following Java concepts such as: 
-* Model-View-Control (MVC) design pattern
+* Model-View-Controller (MVC) design pattern
 * Object-orientated principles (OOP)
 * Refactoring 
 * Graphic user-interface (GUI) using Swing components
